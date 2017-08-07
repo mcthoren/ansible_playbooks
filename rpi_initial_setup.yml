@@ -5,3 +5,4 @@
 - include: rpi_pull_bt.yml
 - include: rpi_pull_wlan.yml
 - include: rpi_nfs_client.yml
+- include: rpi_ganglia_config.yml

@@ -1,0 +1,25 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: add packages
+    apt:
+      name: ganglia-monitor
+      state: present
+
+  - name: tweak ganglia config
+    lineinfile:
+      dest: /etc/ganglia/gmond.conf
+      regexp: 'deaf ='
+      line: '  deaf = yes'
+    when: inventory_hostname != "muffin"
+
+  - name: enable and start ganglia
+    service:
+      name: ganglia-monitor
+      state: started
+      enabled: yes
