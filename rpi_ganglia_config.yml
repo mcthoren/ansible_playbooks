@@ -10,6 +10,8 @@
     apt:
       name: ganglia-monitor
       state: present
+    tags:
+      - packages
 
   - name: tweak ganglia config
     lineinfile:
