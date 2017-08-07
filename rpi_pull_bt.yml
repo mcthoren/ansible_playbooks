@@ -1,0 +1,37 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: disable silly services
+    systemd:
+      name: '{{ item }}'
+      state: stopped
+      enabled: no
+    with_items:
+      - bluetooth
+      - hciuart
+
+  - name: blacklist bt modules
+    kernel_blacklist:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+      - btbcm
+      - hci_uart
+      - bnep
+      - bluetooth
+
+  - name: pull bt modules
+    modprobe:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+      - hci_uart
+      - btbcm
+      - bnep
+      - bluetooth
