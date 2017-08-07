@@ -3,3 +3,4 @@
 
 - include: rpi_base.yml
 - include: rpi_pull_bt.yml
+- include: rpi_pull_wlan.yml
