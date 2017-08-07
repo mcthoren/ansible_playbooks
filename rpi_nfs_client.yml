@@ -8,10 +8,8 @@
 
   - name: add packages
     apt:
-      name: '{{ item }}'
+      name: nfs-common
       state: present
-    with_items:
-      - nfs-common
     tags:
       - update
       - packages
