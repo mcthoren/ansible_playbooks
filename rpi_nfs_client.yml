@@ -1,0 +1,42 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: add packages
+    apt:
+      name: '{{ item }}'
+      state: present
+    with_items:
+      - nfs-common
+    tags:
+      - update
+      - packages
+
+  - name: add mount point dir
+    file:
+      dest: /import/home/ghz
+      owner: ghz
+      group: ghz
+      state: directory
+      mode: 0755
+
+  - name: enable and start nfs
+    service:
+      name: '{{ item }}'
+      state: started
+      enabled: yes
+    with_items:
+      - rpcbind
+      - nfs-common
+
+  - name: add nfs mount point
+    mount:
+      name: /import/home/ghz
+      src: fs0:/mnt/violet/pi/ghz
+      fstype: nfs
+      opts: rw,nolock
+      state: mounted
