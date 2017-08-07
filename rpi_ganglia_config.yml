@@ -6,7 +6,7 @@
 
   tasks:
 
-  - name: add packages
+  - name: add ganglia package
     apt:
       name: ganglia-monitor
       state: present

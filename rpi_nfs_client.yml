@@ -6,13 +6,10 @@
 
   tasks:
 
-  - name: add packages
+  - name: add nfs packages
     apt:
       name: nfs-common
       state: present
-    tags:
-      - update
-      - packages
 
   - name: add mount point dir
     file:

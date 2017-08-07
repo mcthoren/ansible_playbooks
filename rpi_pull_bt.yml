@@ -7,7 +7,7 @@
 
   tasks:
 
-  - name: disable silly services
+  - name: disable bluetooth services
     systemd:
       name: '{{ item }}'
       state: stopped
