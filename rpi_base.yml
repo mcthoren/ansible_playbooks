@@ -136,6 +136,10 @@
       port: 22
       proto: tcp
 
+  - name: stop spamming our ring buffer
+    ufw:
+      logging: off
+
   - name: set timezone to utc
     timezone:
       name: UTC
