@@ -37,3 +37,8 @@
       fstype: nfs
       opts: rw,nolock
       state: mounted
+
+  - name: swap arond my home
+    user:
+      name: ghz
+      home: /import/home/ghz
