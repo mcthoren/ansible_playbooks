@@ -1,0 +1,20 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: kick nfs mount point
+    mount:
+      name: /import/home/ghz
+      state: unmounted
+
+  - name: readd nfs mount point
+    mount:
+      name: /import/home/ghz
+      src: fs0:/mnt/violet/pi/ghz
+      fstype: nfs
+      opts: rw,nolock
+      state: mounted
