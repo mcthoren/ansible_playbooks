@@ -1,0 +1,27 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+  ignore_errors: yes
+
+  tasks:
+
+  - name: remove ganglia packages
+    apt:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+      - ganglia-monitor
+      - ganglia-webfrontend
+      - apache2
+
+  - name: disable and stop ganglia
+    service:
+      name: '{{ item }}'
+      state: stopped
+      enabled: no
+    with_items:
+      - ganglia-monitor
+      - ganglia-webfrontend
+      - apache2
