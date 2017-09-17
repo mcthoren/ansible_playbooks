@@ -15,6 +15,7 @@
       - ganglia-monitor
       - ganglia-webfrontend
       - apache2
+      - gmetad
 
   - name: disable and stop ganglia
     service:
@@ -25,3 +26,4 @@
       - ganglia-monitor
       - ganglia-webfrontend
       - apache2
+      - gmetad
