@@ -29,7 +29,6 @@
       - postfix
       - ufw
     tags:
-      - update
       - packages
 
   - name: pull pi user if it's still there
