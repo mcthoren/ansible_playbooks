@@ -45,6 +45,14 @@
     tags:
       - wank
 
+  - name: tweak ganglia config
+    lineinfile:
+      dest: /etc/nsswitch.conf
+      regexp: 'hosts:'
+      line: 'hosts:		files dns'
+    tags:
+      - nss
+
   - name: pull pi user if it's still there
     user:
       name: pi
