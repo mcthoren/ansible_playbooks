@@ -2,7 +2,6 @@ the rpi ans playbooks have grown to the point they now git their own repo
 
 TODO:
 + rpi_initial_setup.yml
-  - can i assign a host name from ansible based on ip?
   - debug why i have to set a pass for a user before i log in with a key (did this once, forgot)
   - figure a way to do figlet motd's w.o. a change popping up each time
   - set locales with ansible
