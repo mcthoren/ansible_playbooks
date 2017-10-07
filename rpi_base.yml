@@ -43,11 +43,11 @@
       state: stopped
       enabled: no
     with_items:
+      - dbus
       - dbus.socket
-      - dbus.service
+      - avahi-daemon
       - avahi-daemon.socket
-      - avahi-daemon.service
-      - triggerhappy.service
+      - triggerhappy
     tags:
       - wank
 
