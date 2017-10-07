@@ -53,6 +53,12 @@
     tags:
       - nss
 
+  - name: set hostname
+    hostname:
+      name: '{{ inventory_hostname }}'
+    tags:
+      - hostname
+
   - name: pull pi user if it's still there
     user:
       name: pi
