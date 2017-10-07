@@ -31,6 +31,12 @@
     tags:
       - packages
 
+  - name: set hostname
+    hostname:
+      name: '{{ inventory_hostname }}'
+    tags:
+      - hostname
+
   - name: disable wank
     systemd:
       name: '{{ item }}'
@@ -52,12 +58,6 @@
       line: 'hosts:		files dns'
     tags:
       - nss
-
-  - name: set hostname
-    hostname:
-      name: '{{ inventory_hostname }}'
-    tags:
-      - hostname
 
   - name: pull pi user if it's still there
     user:
