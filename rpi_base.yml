@@ -175,11 +175,15 @@
     locale_gen:
       name: en_US.UTF-8
       state: present
+    tags:
+      - locale
 
   - name: sort locales (2/2)
     locale_gen:
       name: en_GB.UTF-8
       state: absent
+    tags:
+      - locale
 
   - name: set timezone to utc
     timezone:
