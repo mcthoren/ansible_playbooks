@@ -43,8 +43,8 @@
       state: stopped
       enabled: no
     with_items:
-      - dbus
-      - dbus.socket
+      # - dbus
+      # - dbus.socket
       - avahi-daemon
       - avahi-daemon.socket
       - triggerhappy
