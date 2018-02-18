@@ -119,7 +119,7 @@
       group: root
       mode: 0755
 
-  - name: "template" .vimrc
+  - name: template .vimrc
     template:
       src: /home/ghz/env/.vimrc
       dest: /root/.vimrc
