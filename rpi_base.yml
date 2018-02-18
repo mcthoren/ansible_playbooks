@@ -119,6 +119,16 @@
       group: root
       mode: 0755
 
+  - name: "template" .vimrc
+    template:
+      src: /home/ghz/env/.vimrc
+      dest: /root/.vimrc
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - vimrc
+
   - name: add path to crontab
     cron:
       env: yes
