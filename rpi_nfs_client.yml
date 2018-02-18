@@ -28,14 +28,14 @@
       enabled: yes
     with_items:
       - rpcbind
-      - nfs-common
+      # - nfs-common
 
   - name: add nfs mount point
     mount:
       name: /import/home/ghz
       src: fs0:/mnt/violet/pi/ghz
       fstype: nfs
-      opts: rw,nolock
+      opts: rw,nolock,comment=systemd.automount
       state: mounted
 
   - name: swap arond my home
