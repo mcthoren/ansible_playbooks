@@ -7,12 +7,16 @@
 
   tasks:
 
+  - name: pause the boinc stuff for the upgrade
+    service:
+      name: boinc-client
+      state: stoped
+      enabled: yes
+
   - name: update, upgrade
     apt:
       upgrade: full
       update_cache: yes
-    tags:
-      - update
 
   - name: swap around our sources list
     replace:
@@ -24,5 +28,3 @@
     apt:
       upgrade: full
       update_cache: yes
-    tags:
-      - update
