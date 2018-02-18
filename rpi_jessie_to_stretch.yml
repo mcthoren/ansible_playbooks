@@ -1,0 +1,28 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: update, upgrade
+    apt:
+      upgrade: full
+      update_cache: yes
+    tags:
+      - update
+
+  - name: swap around our sources list
+    replace:
+      dest: /etc/apt/sources.list
+      regexp: 'jessie'
+      replace: 'stretch'
+
+  - name: update, upgrade
+    apt:
+      upgrade: full
+      update_cache: yes
+    tags:
+      - update
