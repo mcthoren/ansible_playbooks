@@ -7,24 +7,24 @@
 
   tasks:
 
-  - name: pause the boinc stuff for the upgrade
-    service:
-      name: boinc-client
-      state: stoped
-      enabled: yes
+    - name: pause the boinc stuff for the upgrade
+      service:
+        name: boinc-client
+        state: stopped
+        enabled: yes
 
-  - name: update, upgrade
-    apt:
-      upgrade: full
-      update_cache: yes
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
 
-  - name: swap around our sources list
-    replace:
-      dest: /etc/apt/sources.list
-      regexp: 'jessie'
-      replace: 'stretch'
+    - name: swap around our sources list
+      replace:
+        dest: /etc/apt/sources.list
+        regexp: 'jessie'
+        replace: 'stretch'
 
-  - name: update, upgrade
-    apt:
-      upgrade: full
-      update_cache: yes
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
