@@ -12,6 +12,7 @@
         name: boinc-client
         state: stopped
         enabled: yes
+      when: inventory_hostname in groups['pis']
 
     - name: update, upgrade
       apt:
