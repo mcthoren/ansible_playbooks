@@ -74,6 +74,12 @@
       name: ghz
       state: present
 
+  - name: add backup tunnel group
+    group:
+      name: bkt0
+      state: present
+    when: inventory_hostname in groups['wxps']
+
   - name: add me
     user:
       name: ghz
@@ -82,6 +88,22 @@
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
+
+  - name: add backup tunnel user
+    user:
+      name: bkt0
+      home: /home/bkt0
+      group: bkt0
+    when: inventory_hostname in groups['wxps']
+
+  - name: add backup tunnel .ssh dir
+    file:
+      path: /home/bkt0/.ssh
+      owner: bkt0
+      group: bkt0
+      state: directory
+      mode: 0700
+    when: inventory_hostname in groups['wxps']
 
   - name: add .forward
     lineinfile:
@@ -103,7 +125,7 @@
       state: directory
       mode: 0755
 
-  - name: template backup script (pis)
+  - name: template (kinda) backup script (pis)
     template:
       src: /home/ghz/scripts/gen_pi_bk
       dest: /root/scripts/gen_pi_bk
@@ -112,7 +134,7 @@
       mode: 0755
     when: inventory_hostname in groups['pis']
 
-  - name: template backup script (weather probes)
+  - name: template (kinda) backup script (weather probes)
     template:
       src: /home/ghz/scripts/wxp_pi_bk
       dest: /root/scripts/gen_pi_bk
@@ -121,7 +143,16 @@
       mode: 0755
     when: inventory_hostname in groups['wxps']
 
-  - name: template netcheck script
+  - name: template (kinda) weather probe backup tunnel pub key
+    template:
+      src: /home/ghz/repos/ansible_playbooks/bkfs0_ed25519.pub
+      dest: /home/bkt0/.ssh/authorized_keys
+      owner: bkt0
+      group: bkt0
+      mode: 0600
+    when: inventory_hostname in groups['wxps']
+
+  - name: template (kinda) netcheck script
     template:
       src: /home/ghz/scripts/netcheck
       dest: /root/scripts/netcheck
@@ -129,7 +160,7 @@
       group: root
       mode: 0755
 
-  - name: template .vimrc
+  - name: template (kinda) .vimrc
     template:
       src: /home/ghz/env/.vimrc
       dest: /root/.vimrc
