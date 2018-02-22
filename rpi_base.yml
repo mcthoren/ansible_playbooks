@@ -103,13 +103,23 @@
       state: directory
       mode: 0755
 
-  - name: template backup script
+  - name: template backup script (pis)
     template:
       src: /home/ghz/scripts/gen_pi_bk
       dest: /root/scripts/gen_pi_bk
       owner: root
       group: root
       mode: 0755
+    when: inventory_hostname in groups['pis']
+
+  - name: template backup script (weather probes)
+    template:
+      src: /home/ghz/scripts/wxp_pi_bk
+      dest: /root/scripts/gen_pi_bk
+      owner: root
+      group: root
+      mode: 0755
+    when: inventory_hostname in groups['wxps']
 
   - name: template netcheck script
     template:
