@@ -1,5 +1,0 @@
-# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
----
-
-- include: rpi_base.yml
-- include: rpi_pull_bt.yml
