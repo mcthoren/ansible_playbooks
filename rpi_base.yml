@@ -236,3 +236,26 @@
   - name: set timezone to utc
     timezone:
       name: UTC
+
+  - name: template host
+    template:
+      src: /home/ansible/ansible/inventory_all/templates/{{ ansible_distribution }}/main.cf
+      dest: /etc/postfix/main.cf
+      owner: root
+      group: root
+      mode: 644
+    tags:
+      - mail
+
+  - name: reload postfix
+    service:
+      name: postfix
+      state: reloaded
+    tags:
+      - mail
+
+  - name: test mail schicken
+    shell: "date | mail -s $(hostname) tux@berlin-airport.de"
+    tags:
+      - mail
+      - testmail
