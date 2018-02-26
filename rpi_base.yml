@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -239,7 +239,7 @@
 
   - name: template host
     template:
-      src: /home/ansible/ansible/inventory_all/templates/{{ ansible_distribution }}/main.cf
+      src: /home/ghz/ansible_playbooks/plates/post_plate
       dest: /etc/postfix/main.cf
       owner: root
       group: root
