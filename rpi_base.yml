@@ -145,7 +145,7 @@
 
   - name: template (kinda) weather probe backup tunnel pub key
     template:
-      src: /home/ghz/repos/ansible_playbooks/bkfs0_ed25519.pub
+      src: /home/ghz/ansible_playbooks/plates/bkfs0_ed25519.pub
       dest: /home/bkt0/.ssh/authorized_keys
       owner: bkt0
       group: bkt0
