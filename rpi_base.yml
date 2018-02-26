@@ -255,7 +255,7 @@
       - mail
 
   - name: test mail schicken
-    shell: "date | mail -s $(hostname) tux@berlin-airport.de"
+    shell: "date | mail -s $(hostname) ghz@darkdata.org"
     tags:
       - mail
       - testmail
