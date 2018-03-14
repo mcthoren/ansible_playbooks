@@ -28,6 +28,7 @@
       - vim
       - postfix
       - ufw
+      - tcpdump
     tags:
       - packages
 
