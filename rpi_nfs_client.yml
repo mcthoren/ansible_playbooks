@@ -30,7 +30,7 @@
       - rpcbind
       # - nfs-common
 
-  - name: add nfs mount point
+  - name: add fstab entry
     mount:
       name: /import/home/ghz
       src: fs0:/mnt/violet/pi/ghz
