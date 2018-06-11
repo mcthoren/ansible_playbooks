@@ -1,0 +1,29 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: disable and stop nfs
+    service:
+      name: '{{ item }}'
+      state: stopped
+      enabled: no
+    with_items:
+      - rpcbind
+      # - nfs-common
+
+  - name: remove nfs mount
+    mount:
+      name: /import/home/ghz
+      src: fs0:/mnt/violet/pi/ghz
+      fstype: nfs
+      opts: rw,nolock,comment=systemd.automount
+      state: absent
+
+  - name: swap arond my home
+    user:
+      name: ghz
+      home: /home/ghz
