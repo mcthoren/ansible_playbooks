@@ -12,3 +12,9 @@
       state: present
     tags:
       - packages
+
+  - name: enable and start boinc-client
+    service:
+      name: boinc-client
+      state: started
+      enabled: yes
