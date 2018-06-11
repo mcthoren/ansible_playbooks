@@ -27,3 +27,6 @@
     user:
       name: ghz
       home: /home/ghz
+    tags:
+      - postinstall
+      - test
