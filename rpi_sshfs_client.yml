@@ -39,3 +39,6 @@
     user:
       name: ghz
       home: /import/home/ghz
+    tags:
+      - postinstall
+      - test
