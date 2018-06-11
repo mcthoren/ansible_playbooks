@@ -4,4 +4,5 @@
 - include: rpi_base.yml
 - include: rpi_pull_bt.yml
 - include: rpi_pull_wlan.yml
+- include: rpi_sshfs_client.yml
 - include: rpi_boinc_client.yml
