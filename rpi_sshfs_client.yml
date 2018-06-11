@@ -32,7 +32,7 @@
       name: /import/home/ghz
       src: ghz@fs0:/mnt/violet/pi/ghz
       fstype: fuse.sshfs
-      opts: rw,nosuid,nodev,allow_other
+      opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: mounted
 
   - name: swap arond my home
