@@ -21,7 +21,7 @@
       state: directory
       mode: 0755
 
-  - name: make sure root as a key
+  - name: make sure root has a key
     user:
       name: root
       generate_ssh_key: yes
