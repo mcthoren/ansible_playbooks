@@ -238,7 +238,7 @@
     timezone:
       name: UTC
 
-  - name: template host
+  - name: template postfix config
     template:
       src: /home/ghz/ansible_playbooks/plates/post_plate
       dest: /etc/postfix/main.cf
