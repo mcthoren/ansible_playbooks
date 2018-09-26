@@ -135,6 +135,18 @@
       mode: 0755
     when: inventory_hostname in groups['pis']
 
+  - name: Set up multiple authorized keys
+    authorized_key:
+      user: root
+      state: present
+      key: '{{ item }}'
+    with_file:
+      - /home/ghz/ansible_playbooks/plates/rsnap_ed25519.pub
+      - /home/ghz/.ssh/id_ed25519.pub
+    when: inventory_hostname in groups['pis']
+    tags:
+      - keys
+
   - name: template (kinda) backup script (weather probes)
     template:
       src: /home/ghz/scripts/wxp_pi_bk
