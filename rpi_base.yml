@@ -126,15 +126,6 @@
       state: directory
       mode: 0755
 
-  - name: template (kinda) backup script (pis)
-    template:
-      src: /home/ghz/scripts/gen_pi_bk
-      dest: /root/scripts/gen_pi_bk
-      owner: root
-      group: root
-      mode: 0755
-    when: inventory_hostname in groups['pis']
-
   - name: Set up multiple authorized keys
     authorized_key:
       user: root
@@ -210,6 +201,7 @@
       month: "*"
       user: root
       job: "/root/scripts/gen_pi_bk"
+    when: inventory_hostname in groups['wxps']
 
   - name: turn off hdmi to save power
     lineinfile:
