@@ -11,4 +11,3 @@
     cron:
       name: backup
       state: absent
-    when: inventory_hostname in groups['pis']

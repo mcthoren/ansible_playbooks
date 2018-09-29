@@ -75,12 +75,6 @@
       name: ghz
       state: present
 
-  - name: add backup tunnel group
-    group:
-      name: bkt0
-      state: present
-    when: inventory_hostname in groups['wxps']
-
   - name: add me
     user:
       name: ghz
@@ -89,22 +83,17 @@
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
+    when: inventory_hostname in groups['wxps']
 
-  - name: add backup tunnel user
+  - name: add me
     user:
-      name: bkt0
-      home: /home/bkt0
-      group: bkt0
-    when: inventory_hostname in groups['wxps']
-
-  - name: add backup tunnel .ssh dir
-    file:
-      path: /home/bkt0/.ssh
-      owner: bkt0
-      group: bkt0
-      state: directory
-      mode: 0700
-    when: inventory_hostname in groups['wxps']
+      name: ghz
+      uid: 1000
+      home: /import/home/ghz
+      group: ghz
+      groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
+      shell: /usr/bin/zsh
+    when: inventory_hostname in groups['pis']
 
   - name: add .forward
     lineinfile:
@@ -134,27 +123,8 @@
     with_file:
       - /home/ghz/ansible_playbooks/plates/rsnap_ed25519.pub
       - /home/ghz/.ssh/id_ed25519.pub
-    when: inventory_hostname in groups['pis']
     tags:
       - keys
-
-  - name: template (kinda) backup script (weather probes)
-    template:
-      src: /home/ghz/scripts/wxp_pi_bk
-      dest: /root/scripts/gen_pi_bk
-      owner: root
-      group: root
-      mode: 0755
-    when: inventory_hostname in groups['wxps']
-
-  - name: template (kinda) weather probe backup tunnel pub key
-    template:
-      src: /home/ghz/ansible_playbooks/plates/bkfs0_ed25519.pub
-      dest: /home/bkt0/.ssh/authorized_keys
-      owner: bkt0
-      group: bkt0
-      mode: 0600
-    when: inventory_hostname in groups['wxps']
 
   - name: template (kinda) netcheck script
     template:
@@ -190,18 +160,6 @@
       month: "*"
       user: root
       job: "/root/scripts/netcheck"
-
-  - name: add backup cron job
-    cron:
-      name: backup
-      minute: "{{ 59 | random(seed=inventory_hostname) }}"
-      hour: "{{ 5 | random(seed=inventory_hostname) }}"
-      day: "*"
-      weekday: "*"
-      month: "*"
-      user: root
-      job: "/root/scripts/gen_pi_bk"
-    when: inventory_hostname in groups['wxps']
 
   - name: turn off hdmi to save power
     lineinfile:
