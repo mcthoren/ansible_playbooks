@@ -13,14 +13,6 @@
     tags:
       - packages
 
-  - name: swap arond my home
-    user:
-      name: ghz
-      home: /import/home/ghz
-    tags:
-      - postinstall
-      - test
-
   - name: add mount point dir
     file:
       dest: /import/home/ghz
