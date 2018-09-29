@@ -79,20 +79,20 @@
     user:
       name: ghz
       uid: 1000
-      home: /home/ghz
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
-    when: inventory_hostname in groups['wxps']
 
-  - name: add me
+  - name: sort homedir
     user:
       name: ghz
-      uid: 1000
+      home: /home/ghz
+    when: inventory_hostname in groups['wxps']
+
+  - name: sort homedir
+    user:
+      name: ghz
       home: /import/home/ghz
-      group: ghz
-      groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
-      shell: /usr/bin/zsh
     when: inventory_hostname in groups['pis']
 
   - name: add .forward
