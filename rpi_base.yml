@@ -29,6 +29,10 @@
       - postfix
       - ufw
       - tcpdump
+      - feh
+      - ipython
+      - python-matplotlib
+      - python-numpy
     tags:
       - packages
 
