@@ -165,11 +165,12 @@
       user: root
       job: "/root/scripts/netcheck"
 
-  - name: turn off hdmi to save power
-    lineinfile:
-      dest: /etc/rc.local
-      insertbefore: 'exit 0'
-      line: /usr/bin/tvservice -o
+#  this has bitten me in the ass when i try to rescue a pie more times than i care to think about
+#  - name: turn off hdmi to save power
+#    lineinfile:
+#      dest: /etc/rc.local
+#      insertbefore: 'exit 0'
+#      line: /usr/bin/tvservice -o
 
   - name: allow port 22
     ufw:
