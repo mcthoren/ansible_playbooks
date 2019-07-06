@@ -1,0 +1,31 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+    - name: pause the boinc stuff for the upgrade
+      service:
+        name: boinc-client
+        state: stopped
+        enabled: yes
+      when: inventory_hostname in groups['pis']
+
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
+
+    - name: swap around our sources list
+      replace:
+        dest: /etc/apt/sources.list
+        regexp: 'stretch'
+        replace: 'buster'
+
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
