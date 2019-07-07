@@ -1,8 +1,8 @@
 # vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
 ---
 
-- include: rpi_base.yml
-- include: rpi_pull_bt.yml
-- include: rpi_pull_wlan.yml
-- include: rpi_sshfs_client.yml
-- include: rpi_boinc_client.yml
+- import_playbook: rpi_base.yml
+- import_playbook: rpi_pull_bt.yml
+- import_playbook: rpi_pull_wlan.yml
+- import_playbook: rpi_sshfs_client.yml
+- import_playbook: rpi_boinc_client.yml
