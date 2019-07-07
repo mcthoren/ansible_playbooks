@@ -16,7 +16,7 @@
 
   - name: add packages
     apt:
-      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux]
+      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu]
       state: present
     tags:
       - packages
