@@ -16,23 +16,8 @@
 
   - name: add packages
     apt:
-      name: '{{ item }}'
+      name: ['git', 'zsh', 'figlet', 'rsync', 'bsd-mailx', 'locate', 'vim', 'postfix', 'ufw', 'tcpdump', 'feh', 'ipython', 'python-matplotlib', 'python-numpy']
       state: present
-    with_items:
-      - git
-      - zsh
-      - figlet
-      - rsync
-      - bsd-mailx
-      - locate
-      - vim
-      - postfix
-      - ufw
-      - tcpdump
-      - feh
-      - ipython
-      - python-matplotlib
-      - python-numpy
     tags:
       - packages
 
