@@ -168,14 +168,14 @@
     ufw:
       state: enabled
       rule: allow
-      port: 22
+      port: '22'
       proto: tcp
     tags:
       - fw
 
   - name: stop spamming our ring buffer
     ufw:
-      logging: off
+      logging: 'off'
     tags:
       - fw
 
