@@ -13,13 +13,36 @@
     tags:
       - packages
 
-  - name: add mount point dir
+  # make sre we don't try to change the perms on mounted mounts
+  - name: unmount sshfs mount point
+    mount:
+      name: /import/home/ghz
+      src: ghz@fs0:/mnt/violet/pi/ghz
+      # fstype: fuse.sshfs
+      # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
+      state: unmounted
+
+  - name: add mount point dir (1/2)
     file:
-      dest: /import/home/ghz
-      owner: ghz
-      group: ghz
+      dest: /import/home
+      owner: root
+      group: root
       state: directory
       mode: 0755
+
+  # we've observed the following problem
+  # 1. systemd automount whatever cocks up and looses the mount.
+  # 2. the box writes like normal, but now in the mount point.
+  # 3. systemd can't remount cuz the mountpoint isn't empty.
+  # so to work around we make the home dir mount point not writable to the user
+  # this is dumb. real dumb.
+  - name: add mount point dir (2/2)
+    file:
+      dest: /import/home/ghz
+      owner: root
+      group: root
+      state: directory
+      mode: 0000
 
   - name: make sure root has a key
     user:
