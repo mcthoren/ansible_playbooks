@@ -22,6 +22,12 @@
       # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: unmounted
 
+  - name: destroy everything. gawd this is dumb.
+    file:
+      state: absent
+      path: /import
+    when: inventory_hostname in groups['pis']
+
   - name: add mount point dir (1/2)
     file:
       dest: /import/home
