@@ -7,19 +7,19 @@
 
   tasks:
 
-  - name: update, upgrade
-    apt:
-      upgrade: full
-      update_cache: yes
-    tags:
-      - update
-
   - name: add packages
     apt:
       name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu, openntpd, miscfiles, rdate]
       state: present
     tags:
       - packages
+
+  - name: update, upgrade
+    apt:
+      upgrade: full
+      update_cache: yes
+    tags:
+      - update
 
   - name: set hostname
     hostname:
