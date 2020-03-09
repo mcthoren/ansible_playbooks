@@ -9,7 +9,7 @@
 
   - name: add packages
     apt:
-      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu, openntpd, miscfiles, rdate]
+      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps]
       state: present
     tags:
       - packages
