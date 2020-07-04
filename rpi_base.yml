@@ -99,6 +99,14 @@
       group: root
       mode: 0644
 
+  - name: tell OpenNTPd to set time on boot
+    lineinfile:
+      path: /etc/default/openntpd
+      regexp: '^DAEMON_OPTS='
+      line: 'DAEMON_OPTS="-sf /etc/openntpd/ntpd.conf"'
+    tags:
+      - ntp_s
+
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
 
