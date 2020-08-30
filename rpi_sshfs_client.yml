@@ -17,7 +17,7 @@
   - name: unmount sshfs mount point
     mount:
       name: /import/home/ghz
-      src: ghz@fs1:/mnt/violet/pi/ghz
+      src: ghz@fs1:/zspace/pi/ghz
       # fstype: fuse.sshfs
       # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: unmounted
@@ -59,7 +59,7 @@
   - name: add sshfs mount point
     mount:
       name: /import/home/ghz
-      src: ghz@fs1:/mnt/violet/pi/ghz
+      src: ghz@fs1:/zspace/pi/ghz
       fstype: fuse.sshfs
       opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: mounted
