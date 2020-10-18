@@ -128,12 +128,17 @@
       - /home/ghz/ansible_playbooks/plates/rsnap_ed25519.pub
       - /home/ghz/ansible_playbooks/plates/iva_ed25519.pub
       - /home/ghz/ansible_playbooks/plates/bolt_ed25519.pub
+    tags:
+      - keys
 
   - name: add my key
     authorized_key:
       user: ghz
       state: present
-      key: "{{ lookup('file', '/home/ghz/.ssh/id_ed25519.pub') }}"
+      key: '{{ item }}'
+    with_file:
+      - /home/ghz/ansible_playbooks/plates/iva_ed25519.pub
+      - /home/ghz/ansible_playbooks/plates/bolt_ed25519.pub
     when: inventory_hostname in groups['wxps']
     tags:
       - keys
