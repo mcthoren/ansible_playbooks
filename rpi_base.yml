@@ -122,6 +122,14 @@
     tags:
       - ntp_s
 
+  - name: is it running or did it already die on us? again?
+    systemd:
+      name: openntpd
+      state: started
+      enabled: yes
+    tags:
+      - ntp_s
+
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
 
