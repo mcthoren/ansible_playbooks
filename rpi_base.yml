@@ -108,6 +108,20 @@
     tags:
       - ntp_s
 
+  - name: why does this keep dying on linux?
+    lineinfile:
+      path: /etc/systemd/system/multi-user.target.wants/openntpd.service
+      regexp: '^Restart='
+      line: 'Restart=always'
+    tags:
+      - ntp_s
+
+  - name: attempt number 34 of keeping a linux box on time.
+    systemd:
+      daemon_reload: yes
+    tags:
+      - ntp_s
+
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
 
