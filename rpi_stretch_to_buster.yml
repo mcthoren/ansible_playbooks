@@ -25,6 +25,18 @@
         regexp: 'stretch'
         replace: 'buster'
 
+    - name: swap around our rasppi sources list
+      replace:
+        dest: /etc/apt/sources.list.d/raspi.list
+        regexp: 'stretch'
+        replace: 'buster'
+
+    - name: swap around our forgotten rasppi sources list
+      replace:
+        dest: /etc/apt/sources.list.d/raspi.list
+        regexp: 'jessie'
+        replace: 'buster'
+
     - name: update, upgrade
       apt:
         upgrade: full
