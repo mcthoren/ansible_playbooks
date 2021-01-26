@@ -22,6 +22,18 @@
     tags:
       - update
 
+  - name: autoclean
+    apt:
+      autoclean: yes
+    tags:
+      - update
+
+  - name: autoremove
+    apt:
+      autoremove: yes
+    tags:
+      - update
+
   - name: set hostname
     hostname:
       name: '{{ inventory_hostname }}'
