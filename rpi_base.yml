@@ -250,17 +250,22 @@
     tags:
       - fw
 
-  - name: sort locales (1/2)
+  - name: sort locales (1/3)
     locale_gen:
       name: en_US.UTF-8
       state: present
     tags:
       - locale
 
-  - name: sort locales (2/2)
+  - name: sort locales (2/3)
     locale_gen:
       name: en_GB.UTF-8
       state: absent
+    tags:
+      - locale
+
+  - name: sort locales (3/3)
+    command: localectl set-locale C.UTF-8
     tags:
       - locale
 
