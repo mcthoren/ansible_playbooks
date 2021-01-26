@@ -42,6 +42,14 @@
         upgrade: full
         update_cache: yes
 
+    - name: autoclean
+      apt:
+        autoclean: yes
+
+    - name: autoremove
+      apt:
+        autoremove: yes
+
     - name: start the boinc stuff after the upgrade
       service:
         name: boinc-client
