@@ -41,3 +41,10 @@
       apt:
         upgrade: full
         update_cache: yes
+
+    - name: start the boinc stuff after the upgrade
+      service:
+        name: boinc-client
+        state: started
+        enabled: yes
+      when: inventory_hostname in groups['pis']
