@@ -124,6 +124,14 @@
     tags:
       - ntp_s
 
+  - name: more attempts to keep time on linux
+    lineinfile:
+      path: /etc/systemd/system/multi-user.target.wants/openntpd.service
+      insertafter: 'After=network-online.target'
+      line: 'Wants=network-online.target'
+    tags:
+      - ntp_s
+
   - name: attempt number 34 of keeping a linux box on time.
     systemd:
       daemon_reload: yes
