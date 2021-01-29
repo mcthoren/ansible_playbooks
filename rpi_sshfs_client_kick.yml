@@ -1,0 +1,23 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+- hosts: pis
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: unmount sshfs mount point
+    mount:
+      name: /import/home/ghz
+      src: ghz@fs1:/zspace/pi/ghz
+      # fstype: fuse.sshfs
+      # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
+      state: unmounted
+
+  - name: remount sshfs mount point
+    mount:
+      name: /import/home/ghz
+      src: ghz@fs1:/zspace/pi/ghz
+      fstype: fuse.sshfs
+      opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
+      state: mounted
