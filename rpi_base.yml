@@ -112,6 +112,28 @@
       group: root
       mode: 0644
 
+  - name: template (kinda) OpenNTPd config
+    template:
+      src: /home/ghz/ansible_playbooks/plates/ntpd.conf
+      dest: /etc/openntpd/ntpd.conf
+      owner: root
+      group: root
+      mode: 0644
+    when: inventory_hostname in groups['pis']
+    tags:
+      - ntp_s
+
+  - name: template (kinda) OpenNTPd config
+    template:
+      src: /home/ghz/ansible_playbooks/plates/wntpd.conf
+      dest: /etc/openntpd/ntpd.conf
+      owner: root
+      group: root
+      mode: 0644
+    when: inventory_hostname in groups['wxps']
+    tags:
+      - ntp_s
+
   - name: tell OpenNTPd to set time on boot
     lineinfile:
       path: /etc/default/openntpd
@@ -279,7 +301,7 @@
       dest: /etc/postfix/main.cf
       owner: root
       group: root
-      mode: 644
+      mode: 0644
     tags:
       - mail
 
