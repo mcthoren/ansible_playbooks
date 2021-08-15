@@ -40,6 +40,9 @@
     tags:
       - hostname
 
+  # we don't need timesyncd and openntpd. prly.
+  # comment out ModemManager, cuz only some of the pis have it
+  # enabled for some reason, and the rest error out.
   - name: disable wank
     systemd:
       name: '{{ item }}'
@@ -48,9 +51,12 @@
     with_items:
       # - dbus
       # - dbus.socket
+      # - ModemManager.service
       - avahi-daemon
       - avahi-daemon.socket
+      - rsync.service
       - triggerhappy
+      - systemd-timesyncd.service
     tags:
       - wank
 
