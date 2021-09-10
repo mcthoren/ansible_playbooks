@@ -7,66 +7,11 @@
 
   tasks:
 
-  - name: add packages
-    apt:
-      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps, dnsutils, gnuplot, python3-numpy, python3-matplotlib]
-      update_cache: yes
-      state: present
-    tags:
-      - packages
-
-  - name: update, upgrade
-    apt:
-      upgrade: full
-      update_cache: yes
-    tags:
-      - update
-
-  - name: autoclean
-    apt:
-      autoclean: yes
-    tags:
-      - update
-
-  - name: autoremove
-    apt:
-      autoremove: yes
-    tags:
-      - update
-
   - name: set hostname
     hostname:
       name: '{{ inventory_hostname }}'
     tags:
       - hostname
-
-  # we don't need timesyncd and openntpd. prly.
-  # comment out ModemManager, cuz only some of the pis have it
-  # enabled for some reason, and the rest error out.
-  - name: disable wank
-    systemd:
-      name: '{{ item }}'
-      state: stopped
-      enabled: no
-    with_items:
-      # - dbus
-      # - dbus.socket
-      # - ModemManager.service
-      - avahi-daemon
-      - avahi-daemon.socket
-      - rsync.service
-      - triggerhappy
-      - systemd-timesyncd.service
-    tags:
-      - wank
-
-  - name: pull mdns noise
-    lineinfile:
-      dest: /etc/nsswitch.conf
-      regexp: 'hosts:'
-      line: 'hosts:		files dns'
-    tags:
-      - nss
 
   - name: pull pi user if it's still there
     user:
@@ -108,6 +53,61 @@
       skeleton: /dev/null
       home: /import/home/ghz
     when: inventory_hostname in groups['pis']
+
+  - name: update, upgrade
+    apt:
+      upgrade: full
+      update_cache: yes
+    tags:
+      - update
+
+  - name: autoclean
+    apt:
+      autoclean: yes
+    tags:
+      - update
+
+  - name: autoremove
+    apt:
+      autoremove: yes
+    tags:
+      - update
+
+  - name: add packages
+    apt:
+      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, ipython, python-matplotlib, python-numpy, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps, dnsutils, gnuplot, python3-numpy, python3-matplotlib]
+      update_cache: yes
+      state: present
+    tags:
+      - packages
+
+  # we don't need timesyncd and openntpd. prly.
+  # comment out ModemManager, cuz only some of the pis have it
+  # enabled for some reason, and the rest error out.
+  - name: disable wank
+    systemd:
+      name: '{{ item }}'
+      state: stopped
+      enabled: no
+    with_items:
+      # - dbus
+      # - dbus.socket
+      # - ModemManager.service
+      - avahi-daemon
+      - avahi-daemon.socket
+      - rsync.service
+      - triggerhappy
+      - systemd-timesyncd.service
+    tags:
+      - wank
+
+  - name: pull mdns noise
+    lineinfile:
+      dest: /etc/nsswitch.conf
+      regexp: 'hosts:'
+      line: 'hosts:		files dns'
+    tags:
+      - nss
 
   - name: add .forward
     lineinfile:
