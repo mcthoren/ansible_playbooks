@@ -81,8 +81,8 @@
     tags:
       - packages
 
-  # we don't need timesyncd and openntpd. prly.
-  # comment out ModemManager, cuz only some of the pis have it
+  # we don't need timesyncd and ntp, because we have openntpd. prly.
+  # comment out ModemManager and ntp, cuz only some of the pis have it
   # enabled for some reason, and the rest error out.
   - name: disable wank
     systemd:
@@ -93,6 +93,7 @@
       # - dbus
       # - dbus.socket
       # - ModemManager.service
+      # - ntp.service
       - avahi-daemon
       - avahi-daemon.socket
       - rsync.service
