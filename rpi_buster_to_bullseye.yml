@@ -1,0 +1,50 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
+
+    - name: swap around our sources list
+      replace:
+        dest: /etc/apt/sources.list
+        regexp: 'buster'
+        replace: 'bullseye'
+
+    - name: swap around our rasppi sources list
+      replace:
+        dest: /etc/apt/sources.list.d/raspi.list
+        regexp: 'buster'
+        replace: 'bullseye'
+
+    - name: swap around our forgotten rasppi sources list
+      replace:
+        dest: /etc/apt/sources.list.d/raspi.list
+        regexp: 'stretch'
+        replace: 'bullseye'
+
+    - name: swap around our long forgotten rasppi sources list
+      replace:
+        dest: /etc/apt/sources.list.d/raspi.list
+        regexp: 'jessie'
+        replace: 'bullseye'
+
+    - name: update, upgrade
+      apt:
+        upgrade: full
+        update_cache: yes
+
+    - name: autoclean
+      apt:
+        autoclean: yes
+
+    - name: autoremove
+      apt:
+        autoremove: yes
