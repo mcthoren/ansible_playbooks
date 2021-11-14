@@ -96,8 +96,12 @@
       # - ntp.service
       - avahi-daemon
       - avahi-daemon.socket
+      - nfs-client.target
+      - remote-fs.target
+      - rpcbind.service
       - rsync.service
       - triggerhappy
+      - triggerhappy.socket
       - systemd-timesyncd.service
     tags:
       - wank
