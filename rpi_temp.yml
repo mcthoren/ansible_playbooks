@@ -1,0 +1,27 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: ghz
+
+  tasks:
+
+  - name: add path to crontab
+    cron:
+      env: yes
+      name: PATH
+      value: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+      user: ghz
+
+  - name: add temperature cron entry
+    cron:
+      name: box_temp
+      minute: "*"
+      hour: "*"
+      day: "*"
+      weekday: "*"
+      month: "*"
+      user: ghz
+      job: "/import/home/ghz/repos/scripts/box_temp.go"
+    when: inventory_hostname in groups['pis']
