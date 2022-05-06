@@ -14,14 +14,26 @@
       value: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
       user: ghz
 
-  - name: add temperature cron entry
+  - name: add temperature cron entry to non weather pis
     cron:
       name: box_temp
-      minute: "*"
-      hour: "*"
-      day: "*"
-      weekday: "*"
-      month: "*"
+      minute: "*	"
+      hour: "*	"
+      day: "*	"
+      weekday: "*	"
+      month: "*	"
       user: ghz
       job: "/import/home/ghz/repos/scripts/box_temp.go"
     when: inventory_hostname in groups['pis']
+
+  - name: add temperature cron entry to weather pis
+    cron:
+      name: box_temp
+      minute: "*	"
+      hour: "*	"
+      day: "*	"
+      weekday: "*	"
+      month: "*	"
+      user: ghz
+      job: "/home/ghz/repos/scripts/box_temp.go"
+    when: inventory_hostname in groups['wxps']
