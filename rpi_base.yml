@@ -215,7 +215,7 @@
     # tags:
       # - keys
 
-  - name: Set up multiple authorized keys
+  - name: Set up root ssh keys
     authorized_key:
       user: root
       state: present
@@ -224,6 +224,16 @@
       - /home/ghz/ansible_playbooks/plates/bobble_pi_snaps-20211117.pub
       - /home/ghz/ansible_playbooks/plates/iva_ed25519.pub
       - /home/ghz/ansible_playbooks/plates/bolt_ed25519.pub
+    tags:
+      - keys
+
+  - name: Set up ghz ssh keys
+    authorized_key:
+      user: ghz
+      state: present
+      key: '{{ item }}'
+    with_file:
+      - /home/ghz/ansible_playbooks/plates/wxps.pub
     tags:
       - keys
 
