@@ -75,7 +75,9 @@
 
   - name: add packages
     apt:
-      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump, feh, python3-ipython, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps, dnsutils, gnuplot, python3-numpy, python3-matplotlib]
+      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump,
+        feh, python3-ipython, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps,
+        dnsutils, gnuplot, python3-numpy, python3-matplotlib, aspell]
       update_cache: yes
       state: present
     tags:
