@@ -44,6 +44,22 @@
       apt:
         autoremove: yes
 
+    - name: descramble the one wired ethernet interface (1/2)
+        file:
+          src: /dev/null
+          dest: /etc/systemd/network/99-default.link
+          owner: root
+          group: root
+          state: link
+
+    - name: descramble the one wired ethernet interface (2/2)
+        file:
+          src: /dev/null
+          dest: /etc/systemd/network/73-usb-net-by-mac.link
+          owner: root
+          group: root
+          state: link
+
     - name: start the boinc stuff after the upgrade
       service:
         name: boinc-client
