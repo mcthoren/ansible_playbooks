@@ -51,6 +51,9 @@
         owner: root
         group: root
         state: link
+        force: true
+      tags:
+        - cleanup
 
     - name: 'descramble the one wired ethernet interface (2/2)'
       file:
@@ -59,11 +62,16 @@
         owner: root
         group: root
         state: link
+        force: true
+      tags:
+        - cleanup
 
     - name: fix dhcpcd wrong path bug
       file:
         path: /etc/systemd/system/dhcpcd.service.d/wait.conf
         state: absent
+      tags:
+        - cleanup
 
     - name: start the boinc stuff after the upgrade
       service:
