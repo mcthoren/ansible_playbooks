@@ -60,6 +60,11 @@
           group: root
           state: link
 
+    - name: fix dhcpcd wrong path bug
+        file:
+          path: /etc/systemd/system/dhcpcd.service.d/wait.conf
+          state: absent
+
     - name: start the boinc stuff after the upgrade
       service:
         name: boinc-client
