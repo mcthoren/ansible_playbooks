@@ -12,7 +12,7 @@
         name: boinc-client
         state: stopped
         enabled: yes
-      when: inventory_hostname in groups['pis']
+      when: inventory_hostname in groups['boincs']
 
     - name: update, upgrade
       apt:
@@ -78,4 +78,4 @@
         name: boinc-client
         state: started
         enabled: yes
-      when: inventory_hostname in groups['pis']
+      when: inventory_hostname in groups['boincs']
