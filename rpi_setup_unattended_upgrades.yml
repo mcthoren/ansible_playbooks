@@ -1,0 +1,33 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: install packages
+    apt:
+      name: [ unattended-upgrades, apt-listchanges ]
+      update_cache: yes
+      state: present
+    tags:
+      - packages
+
+  - name: template unattended-upgrades config
+    template:
+      src: /home/ghz/ansible_playbooks/plates/50unattended-upgrades
+      dest: /etc/apt/apt.conf.d/50unattended-upgrades
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - unattended
+
+  - name: restart unattended-upgrades service
+    service:
+      name: unattended-upgrades
+      state: restarted
+    tags:
+      - unattended
