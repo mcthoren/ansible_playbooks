@@ -39,10 +39,14 @@
     - name: autoclean
       apt:
         autoclean: yes
+      tags:
+        - cleanup
 
     - name: autoremove
       apt:
         autoremove: yes
+      tags:
+        - cleanup
 
     - name: 'descramble the one wired ethernet interface (1/2)'
       file:
