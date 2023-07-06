@@ -1,5 +1,1 @@
 the rpi ans playbooks have grown to the point they now git their own repo
-
-TODO:
-+ rpi_initial_setup.yml
-  - figure a way to do figlet motd's w.o. a change popping up each time
