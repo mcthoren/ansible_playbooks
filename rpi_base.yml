@@ -104,7 +104,7 @@
       - rsync.service
       - triggerhappy
       - triggerhappy.socket
-      - systemd-timesyncd.service
+      # - systemd-timesyncd.service
     tags:
       - wank
 
