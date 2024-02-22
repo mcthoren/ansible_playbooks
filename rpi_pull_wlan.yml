@@ -29,3 +29,10 @@
     with_items:
       - brcmfmac
       - brcmutil
+
+  - name: pull wifi-check.sh
+    file:
+      path: /etc/profile.d/wifi-check.sh
+      state: absent
+    tags:
+      - cleanup
