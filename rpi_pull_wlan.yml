@@ -7,13 +7,20 @@
 
   tasks:
 
+  - name: disable wpa_supplicant
+    systemd:
+      name: wpa_supplicant
+      state: stopped
+      enabled: no
+
   - name: blacklist wlan modules
     kernel_blacklist:
       name: '{{ item }}'
-      state: absent
+      state: present
     with_items:
       - brcmfmac
       - brcmutil
+      - rfkill
 
   - name: pull wlan modules
     modprobe:
@@ -22,9 +29,3 @@
     with_items:
       - brcmfmac
       - brcmutil
-
-  - name: disable wpa_supplicant
-    systemd:
-      name: wpa_supplicant
-      state: stopped
-      enabled: no

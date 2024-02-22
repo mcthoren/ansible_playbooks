@@ -19,12 +19,13 @@
   - name: blacklist bt modules
     kernel_blacklist:
       name: '{{ item }}'
-      state: absent
+      state: present
     with_items:
       - btbcm
       - hci_uart
       - bnep
       - bluetooth
+      - rfkill
 
   - name: pull bt modules
     modprobe:
