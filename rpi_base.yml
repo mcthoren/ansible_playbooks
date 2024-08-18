@@ -35,12 +35,16 @@
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
+    tags:
+      - user
 
   - name: sort homedir
     user:
       name: ghz
       home: /home/ghz
     when: inventory_hostname in groups['wxps']
+    tags:
+      - user
 
   # home creation will be done by work-around-fucking-systemd playbook
   # create_home: no and skell appear to have no effect.
@@ -49,10 +53,12 @@
   - name: sort homedir
     user:
       name: ghz
-      create_home: no
+      create_home: false
       skeleton: /dev/null
       home: /import/home/ghz
     when: inventory_hostname in groups['pis']
+    tags:
+      - user
 
   - name: update, upgrade
     apt:
@@ -76,14 +82,13 @@
   - name: add packages
     apt:
       name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump,
-        feh, python3-ipython, aptitude, tmux, cu, openntpd, miscfiles, rdate, x11-apps,
+        feh, python3-ipython, aptitude, tmux, cu, miscfiles, rdate, x11-apps,
         dnsutils, gnuplot, python3-numpy, python3-matplotlib, aspell]
       update_cache: yes
       state: present
     tags:
       - packages
 
-  # we don't need timesyncd and ntp, because we have openntpd. prly.
   # comment out ModemManager and ntp, cuz only some of the pis have it
   # enabled for some reason, and the rest error out.
   - name: disable wank
@@ -125,74 +130,6 @@
       group: root
       mode: 0644
 
-  - name: template (kinda) OpenNTPd config
-    template:
-      src: /home/ghz/ansible_playbooks/plates/ntpd.conf
-      dest: /etc/openntpd/ntpd.conf
-      owner: root
-      group: root
-      mode: 0644
-    when: inventory_hostname in groups['pis']
-    tags:
-      - ntp_s
-
-  - name: template (kinda) OpenNTPd config
-    template:
-      src: /home/ghz/ansible_playbooks/plates/wntpd.conf
-      dest: /etc/openntpd/ntpd.conf
-      owner: root
-      group: root
-      mode: 0644
-    when: inventory_hostname in groups['wxps']
-    tags:
-      - ntp_s
-
-  - name: tell OpenNTPd to set time on boot
-    lineinfile:
-      path: /etc/default/openntpd
-      regexp: '^DAEMON_OPTS='
-      line: 'DAEMON_OPTS="-sf /etc/openntpd/ntpd.conf"'
-    tags:
-      - ntp_s
-
-  - name: why does this keep dying on linux?
-    lineinfile:
-      path: /etc/systemd/system/multi-user.target.wants/openntpd.service
-      regexp: '^Restart='
-      line: 'Restart=always'
-    tags:
-      - ntp_s
-
-  - name: apparently "network.target" isn't actually well defined
-    lineinfile:
-      path: /etc/systemd/system/multi-user.target.wants/openntpd.service
-      regexp: '^After='
-      line: 'After=network-online.target'
-    tags:
-      - ntp_s
-
-  - name: more attempts to keep time on linux
-    lineinfile:
-      path: /etc/systemd/system/multi-user.target.wants/openntpd.service
-      insertafter: 'After=network-online.target'
-      line: 'Wants=network-online.target'
-    tags:
-      - ntp_s
-
-  - name: attempt number 34 of keeping a linux box on time.
-    systemd:
-      daemon_reload: yes
-    tags:
-      - ntp_s
-
-  - name: is it running or did it already die on us? again?
-    systemd:
-      name: openntpd
-      state: started
-      enabled: yes
-    tags:
-      - ntp_s
-
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
 
@@ -217,7 +154,7 @@
     # tags:
       # - keys
 
-  - name: Set up root ssh keys
+  - name: set up root ssh keys
     authorized_key:
       user: root
       state: present
@@ -231,7 +168,7 @@
     tags:
       - keys
 
-  - name: Set up ghz ssh keys
+  - name: set up ghz ssh keys
     authorized_key:
       user: ghz
       state: present
