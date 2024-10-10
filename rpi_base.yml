@@ -83,7 +83,7 @@
     apt:
       name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump,
         feh, python3-ipython, aptitude, tmux, cu, miscfiles, rdate, x11-apps,
-        dnsutils, gnuplot, python3-numpy, python3-matplotlib, aspell]
+        dnsutils, gnuplot, python3-numpy, python3-matplotlib, aspell, traceroute]
       update_cache: yes
       state: present
     tags:
