@@ -30,9 +30,11 @@
       - brcmfmac
       - brcmutil
 
-  - name: pull wifi-check.sh
-    file:
-      path: /etc/profile.d/wifi-check.sh
+  - name: remove packages
+    apt:
+      name: [ rfkill ]
+      update_cache: yes
       state: absent
     tags:
+      - packages
       - cleanup
