@@ -8,3 +8,4 @@
 - import_playbook: rpi_boinc_client.yml
 - import_playbook: rpi_temp.yml
 - import_playbook: rpi_setup_unattended_upgrades.yml
+- import_playbook: initialize_root_env.yml

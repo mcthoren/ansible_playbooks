@@ -1,0 +1,28 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: copy over minimal inputrc
+    copy:
+      src: /home/ghz/ansible_playbooks/plates/.inputrc
+      dest: /root/.inputrc
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - configs
+
+  - name: copy over minimal vimrc
+    copy:
+      src: /home/ghz/env/.vimrc
+      dest: /root/.vimrc
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - configs
