@@ -1,17 +1,27 @@
 # vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
 ---
 - hosts: pis
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
 
-  - name: add sshfs packages
+  - name: add sshfs packages (deb)
     apt:
       name: sshfs
       state: present
     tags:
       - packages
+    when: ansible_os_family == 'Debian'
+
+  - name: add sshfs packages (alp)
+    apk:
+      name: sshfs
+      state: present
+      update_cache: yes
+    tags:
+      - packages
+    when: ansible_os_family == 'Alpine'
 
   # make sre we don't try to change the perms on mounted mounts
   - name: unmount sshfs mount point
