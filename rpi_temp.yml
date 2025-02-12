@@ -14,6 +14,22 @@
       value: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
       user: ghz
 
+  - name: add home to crontab (wxps)
+    cron:
+      env: yes
+      name: HOME
+      value: /home/ghz
+      user: ghz
+    when: inventory_hostname in groups['wxps']
+
+  - name: add home to crontab (pis)
+    cron:
+      env: yes
+      name: HOME
+      value: /import/home/ghz
+      user: ghz
+    when: inventory_hostname in groups['pis']
+
   - name: add temperature cron entry to non weather pis
     cron:
       name: box_temp
