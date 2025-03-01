@@ -1,0 +1,61 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  - name: fetch key from remote host
+    fetch:
+      src: /etc/ssh/ssh_host_ed25519_key.pub
+      dest: /tmp/
+    tags:
+      - ssh_cert
+
+  - name: sign key
+    shell:
+      cmd: ssh-keygen -s /home/ghz/ssh_ca/ssh_cert_signing_key_0004 -I "sand ssh ca cert 0004" -h /tmp/{{ inventory_hostname }}/etc/ssh/ssh_host_ed25519_key.pub
+    delegate_to: 127.0.0.1
+    tags:
+      - ssh_cert
+
+  - name: copy signed cert back to remote host
+    copy:
+      src: "/tmp/{{ inventory_hostname }}/etc/ssh/ssh_host_ed25519_key-cert.pub"
+      dest: /etc/ssh/
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - ssh_cert
+
+  - name: add sshd config for the host certificate
+    lineinfile:
+      dest: /etc/ssh/sshd_config.d/50-host_cert.conf
+      create: yes
+      line: 'HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub'
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - ssh_cert
+
+  - name: add ssh_known_hosts to look for a config
+    lineinfile:
+      dest: /etc/ssh/ssh_known_hosts
+      create: yes
+      line: '@cert-authority * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOJ3gXIzs9llnTxihqlCj7Ps4hGW4MuFf/7QsZlGmjQ 2025-03-01T13:43:37Z sand ssh ca cert signing key'
+      owner: root
+      group: root
+      mode: 0644
+    tags:
+      - ssh_cert
+
+  - name: restart sshd
+    service:
+      name: sshd
+      state: restarted
+    tags:
+      - ssh_cert
