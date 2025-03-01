@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -53,9 +53,20 @@
     tags:
       - ssh_cert
 
-  - name: restart sshd
+  - name: restart sshd (deb)
+    service:
+      name: ssh
+      state: restarted
+    tags:
+      - ssh_cert
+      - restart_sshd
+    when: ansible_os_family == 'Debian'
+
+  - name: restart sshd (alpine)
     service:
       name: sshd
       state: restarted
     tags:
       - ssh_cert
+      - restart_sshd
+    when: ansible_os_family == 'Alpine'
