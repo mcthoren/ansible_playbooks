@@ -16,7 +16,7 @@
 
   - name: sign key
     shell:
-      cmd: ssh-keygen -Us /home/ghz/ssh_ca/ssh_cert_signing_key_0004 -I "sand ssh ca cert 0004" -h /tmp/{{ inventory_hostname }}/etc/ssh/ssh_host_ed25519_key.pub
+      cmd: ssh-keygen -Us /home/ghz/ssh_ca/ssh_cert_signing_key_0004 -I "sand ssh ca cert 0004" -n "{{ inventory_hostname }},{{ inventory_hostname }}.darkdata.lan" -z 20250317 -h /tmp/{{ inventory_hostname }}/etc/ssh/ssh_host_ed25519_key.pub
     delegate_to: 127.0.0.1
     tags:
       - ssh_cert
