@@ -60,25 +60,6 @@
     tags:
       - user
 
-  - name: update, upgrade
-    apt:
-      upgrade: full
-      update_cache: yes
-    tags:
-      - update
-
-  - name: autoclean
-    apt:
-      autoclean: yes
-    tags:
-      - update
-
-  - name: autoremove
-    apt:
-      autoremove: yes
-    tags:
-      - update
-
   - name: add packages
     apt:
       name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump,

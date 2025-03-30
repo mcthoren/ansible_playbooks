@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -11,11 +11,20 @@
       apt:
         upgrade: full
         update_cache: yes
+      when: ansible_os_family == 'Debian'
 
     - name: autoclean
       apt:
         autoclean: yes
+      when: ansible_os_family == 'Debian'
 
     - name: autoremove
       apt:
         autoremove: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: update
+      apk:
+        available: true
+        upgrade: true
+      when: ansible_os_family == 'Alpine'
