@@ -60,16 +60,6 @@
     tags:
       - user
 
-  - name: add packages
-    apt:
-      name: [git, zsh, figlet, rsync, bsd-mailx, locate, vim, postfix, ufw, tcpdump,
-        feh, python3-ipython, aptitude, tmux, cu, miscfiles, rdate, x11-apps, whois,
-        dnsutils, gnuplot, python3-numpy, python3-matplotlib, aspell, traceroute]
-      update_cache: yes
-      state: present
-    tags:
-      - packages
-
   # comment out ModemManager and ntp, cuz only some of the pis have it
   # enabled for some reason, and the rest error out.
   - name: disable wank
