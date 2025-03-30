@@ -1,0 +1,79 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: yes
+  user: root
+
+  tasks:
+
+    - name: add packages
+      apk:
+        available: true
+        name: '{{ item }}'
+        state: latest
+        update_cache: true
+      with_items:
+        - aspell
+        - bind-tools
+        - docs
+        - feh
+        - figlet
+        - findutils-locate
+        - git
+        - gnuplot
+        - ipython
+        - lsb-release-minimal
+        - openssh
+        - openntpd
+        - outils-rdate
+        - perl
+        - postfix
+        - py3-matplotlib
+        - py3-numpy
+        - py3-pip
+        - rsync
+        - s-nail
+        - sshfs
+        - tcpdump
+        - tmux
+        - vim
+        - zsh
+      when: ansible_os_family == 'Alpine'
+      tags:
+        - packages
+
+    - name: add packages
+      apt:
+        name: '{{ item }}'
+        update_cache: yes
+        state: present
+      with_items:
+        - aptitude
+        - aspell
+        - bsd-mailx
+        - cu
+        - dnsutils
+        - feh
+        - figlet
+        - git
+        - gnuplot
+        - locate
+        - miscfiles
+        - postfix
+        - python3-ipython
+        - python3-matplotlib
+        - python3-numpy
+        - rdate
+        - rsync
+        - tcpdump
+        - tmux
+        - traceroute
+        - ufw
+        - vim
+        - whois
+        - x11-apps
+        - zsh
+      when: ansible_os_family == 'Debian'
+      tags:
+        - packages
