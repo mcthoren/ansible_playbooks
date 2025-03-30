@@ -102,15 +102,6 @@
     tags:
       - nss
 
-  - name: add .forward
-    lineinfile:
-      dest: /root/.forward
-      create: yes
-      line: ghz@darkdata.org
-      owner: root
-      group: root
-      mode: 0644
-
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
 
@@ -256,26 +247,3 @@
   - name: set timezone to utc
     timezone:
       name: UTC
-
-  - name: template postfix config
-    template:
-      src: /home/ghz/ansible_playbooks/plates/post_plate
-      dest: /etc/postfix/main.cf
-      owner: root
-      group: root
-      mode: 0644
-    tags:
-      - mail
-
-  - name: reload postfix
-    service:
-      name: postfix
-      state: reloaded
-    tags:
-      - mail
-
-  - name: test mail schicken
-    shell: "date | mail -s $(hostname) ghz@darkdata.org"
-    tags:
-      - mail
-      - testmail
