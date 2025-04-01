@@ -35,6 +35,18 @@
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
+    when: ansible_os_family == 'Debian'
+    tags:
+      - user
+
+  - name: add me
+    user:
+      name: ghz
+      uid: 1000
+      group: ghz
+      groups: adm,dialout,cdrom,audio,video,games,users,input,netdev
+      shell: /usr/bin/zsh
+    when: ansible_os_family == 'Alpine'
     tags:
       - user
 
@@ -43,20 +55,6 @@
       name: ghz
       home: /home/ghz
     when: inventory_hostname in groups['wxps']
-    tags:
-      - user
-
-  # home creation will be done by work-around-fucking-systemd playbook
-  # create_home: no and skell appear to have no effect.
-  # i haven't figured out how to set a home, but not create it or fill it will bullshit.
-  # so work around this by just deleting it in the sshfs playbook.
-  - name: sort homedir
-    user:
-      name: ghz
-      create_home: false
-      skeleton: /dev/null
-      home: /import/home/ghz
-    when: inventory_hostname in groups['pis']
     tags:
       - user
 
@@ -81,6 +79,7 @@
       - triggerhappy
       - triggerhappy.socket
       # - systemd-timesyncd.service
+    when: ansible_os_family == 'Debian'
     tags:
       - wank
 
