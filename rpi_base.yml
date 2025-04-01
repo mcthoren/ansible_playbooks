@@ -182,16 +182,6 @@
     tags:
       - cron
 
-  - name: work around broken systemd automounting
-    cron:
-      name: work around broken systemd network automounting by _actually_ mounting the drive here.
-      special_time: reboot
-      user: root
-      job: "				sleep 8; /bin/mount -a"
-    when: inventory_hostname in groups['pis']
-    tags:
-      - cron
-
 #  this has bitten me in the ass when i try to rescue a pie more times than i care to think about
 #  - name: turn off hdmi to save power
 #    lineinfile:
