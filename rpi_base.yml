@@ -196,12 +196,14 @@
       rule: allow
       port: '22'
       proto: tcp
+    when: ansible_os_family == 'Debian'
     tags:
       - fw
 
   - name: stop spamming our ring buffer
     ufw:
       logging: 'off'
+    when: ansible_os_family == 'Debian'
     tags:
       - fw
 
@@ -209,6 +211,7 @@
     locale_gen:
       name: en_US.UTF-8
       state: present
+    when: ansible_os_family == 'Debian'
     tags:
       - locale
 
@@ -216,14 +219,17 @@
     locale_gen:
       name: en_GB.UTF-8
       state: absent
+    when: ansible_os_family == 'Debian'
     tags:
       - locale
 
   - name: sort locales (3/3)
     command: localectl set-locale C.UTF-8
+    when: ansible_os_family == 'Debian'
     tags:
       - locale
 
   - name: set timezone to utc
     timezone:
       name: UTC
+    when: ansible_os_family == 'Debian'
