@@ -207,6 +207,7 @@
     tags:
       - fw
 
+  # i seem to be using c.utf8 out of the box on alpine here, so... finished.
   - name: sort locales (1/3)
     locale_gen:
       name: en_US.UTF-8
@@ -229,6 +230,7 @@
     tags:
       - locale
 
+  # i seem to be using utc out of the box on alpine, soo..... no probs here.
   - name: set timezone to utc
     timezone:
       name: UTC
