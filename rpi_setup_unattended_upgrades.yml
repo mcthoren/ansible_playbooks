@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -12,16 +12,18 @@
       name: [ unattended-upgrades, apt-listchanges ]
       update_cache: yes
       state: present
+    when: ansible_os_family == 'Debian'
     tags:
       - packages
 
   - name: template unattended-upgrades config
     template:
-      src: /home/ghz/ansible_playbooks/plates/50unattended-upgrades
+      src: /home/ghz/repos/ansible_playbooks/plates/50unattended-upgrades
       dest: /etc/apt/apt.conf.d/50unattended-upgrades
       owner: root
       group: root
       mode: 0644
+    when: ansible_os_family == 'Debian'
     tags:
       - unattended
 
@@ -29,5 +31,20 @@
     service:
       name: unattended-upgrades
       state: restarted
+    when: ansible_os_family == 'Debian'
     tags:
       - unattended
+
+  - name: add netcheck cron entry
+    cron:
+      name: netcheck
+      minute: "16   "
+      hour: "01   "
+      day: "*   "
+      weekday: "*   "
+      month: "*   "
+      user: root
+      job: "apk -U upgrade"
+    when: ansible_os_family == 'Alpine'
+    tags:
+      - cron
