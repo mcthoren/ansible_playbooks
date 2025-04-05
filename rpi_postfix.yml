@@ -9,7 +9,7 @@
 
   - name: template postfix config
     template:
-      src: /home/ghz/ansible_playbooks/plates/post_plate
+      src: /home/ghz/repos/ansible_playbooks/plates/post_plate
       dest: /etc/postfix/main.cf
       owner: root
       group: root
@@ -21,6 +21,7 @@
     service:
       name: postfix
       state: reloaded
+      enabled: true
     tags:
       - mail
 
