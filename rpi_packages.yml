@@ -16,6 +16,7 @@
       with_items:
         - aspell
         - bind-tools
+        - cronie
         - docs
         - feh
         - figlet
@@ -77,3 +78,23 @@
       when: ansible_os_family == 'Debian'
       tags:
         - packages
+
+    - name: pull busybox crond
+      service:
+        name: crond
+        state: stopped
+        enabled: false
+      when: ansible_os_family == 'Alpine'
+      tags:
+        - packages
+        - cron
+
+    - name: start cronie
+      service:
+        name: cronie
+        state: started
+        enabled: true
+      when: ansible_os_family == 'Alpine'
+      tags:
+        - packages
+        - cron
