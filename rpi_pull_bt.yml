@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -15,6 +15,7 @@
     with_items:
       - bluetooth
       - hciuart
+    when: ansible_os_family == 'Debian'
 
   - name: blacklist bt modules
     kernel_blacklist:
@@ -27,6 +28,9 @@
       - bluetooth
       - rfkill
 
+  # modprobe -r doesn't work on alpine for some reason
+  # but the blacklist from above works, so these will be
+  # gone on the next reboot. which is good enough for now.
   - name: pull bt modules
     modprobe:
       name: '{{ item }}'
@@ -36,3 +40,4 @@
       - btbcm
       - bnep
       - bluetooth
+    when: ansible_os_family == 'Debian'
