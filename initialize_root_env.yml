@@ -9,7 +9,7 @@
 
   - name: copy over minimal inputrc (root)
     copy:
-      src: /home/ghz/ansible_playbooks/plates/.inputrc
+      src: /home/ghz/repos/ansible_playbooks/plates/.inputrc
       dest: /root/.inputrc
       owner: root
       group: root
@@ -20,7 +20,7 @@
 
   - name: copy over minimal inputrc (user)
     copy:
-      src: /home/ghz/ansible_playbooks/plates/.inputrc
+      src: /home/ghz/repos/ansible_playbooks/plates/.inputrc
       dest: /home/ghz/.inputrc
       owner: ghz
       group: ghz
