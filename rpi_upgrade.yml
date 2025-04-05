@@ -25,6 +25,6 @@
 
     - name: update
       apk:
-        available: true
         upgrade: true
+        update_cache: true
       when: ansible_os_family == 'Alpine'
