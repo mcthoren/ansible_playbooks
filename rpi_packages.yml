@@ -25,6 +25,7 @@
         - gnuplot
         - ipython
         - lsb-release-minimal
+        - man-db
         - openssh
         - openntpd
         - outils-rdate
