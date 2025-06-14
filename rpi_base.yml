@@ -68,8 +68,8 @@
     with_items:
       # - dbus
       # - dbus.socket
-      # - ModemManager.service
-      # - ntp.service
+      - ModemManager.service
+      - ntp.service
       - avahi-daemon
       - avahi-daemon.socket
       - nfs-client.target
@@ -79,6 +79,7 @@
       - triggerhappy
       - triggerhappy.socket
       # - systemd-timesyncd.service
+    ignore_errors: true
     when: ansible_os_family == 'Debian'
     tags:
       - wank
