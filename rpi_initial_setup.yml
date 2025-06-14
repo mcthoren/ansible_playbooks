@@ -1,6 +1,7 @@
 # vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
 ---
 
+- import_playbook: ssh_cert.yml
 - import_playbook: rpi_sshfs_client.yml
 - import_playbook: rpi_upgrade.yml
 - import_playbook: rpi_packages.yml
