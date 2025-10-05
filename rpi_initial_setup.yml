@@ -6,7 +6,7 @@
 - import_playbook: rpi_upgrade.yml
 - import_playbook: rpi_packages.yml
 - import_playbook: rpi_base.yml
-- import_playbook: rpi_postfix.yml
+- import_playbook: rpi_mail.yml
 - import_playbook: rpi_pull_bt.yml
 - import_playbook: rpi_pull_wlan.yml
 - import_playbook: rpi_boinc_client.yml

@@ -1,0 +1,44 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: yes
+  user: root
+
+  tasks:
+
+  - name: template postfix config (Linux)
+    template:
+      src: /home/ghz/repos/ansible_playbooks/plates/post_plate
+      dest: /etc/postfix/main.cf
+      owner: root
+      group: root
+      mode: 0644
+    when: ansible_system == 'Linux'
+    tags:
+      - mail
+
+  - name: reload postfix (Linux)
+    service:
+      name: postfix
+      state: reloaded
+      enabled: true
+    when: ansible_system == 'Linux'
+    tags:
+      - mail
+
+  - name: add .forward
+    lineinfile:
+      dest: /root/.forward
+      create: yes
+      line: ghz@darkdata.org
+      owner: root
+      mode: 0644
+    tags:
+      - mail
+
+  - name: test mail schicken
+    shell: "date | mail -s $(hostname) root"
+    tags:
+      - mail
+      - testmail
