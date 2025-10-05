@@ -42,6 +42,7 @@
       # fstype: fuse.sshfs
       # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: unmounted
+    when: ansible_system == 'Linux'
     tags:
       - sshfs
 
@@ -49,7 +50,7 @@
     file:
       state: absent
       path: /import
-    when: inventory_hostname in groups['pis']
+    when: inventory_hostname in groups['pis'] and ansible_system == 'Linux'
     tags:
       - sshfs
 
@@ -61,6 +62,7 @@
       mode: 0755
     tags:
       - sshfs
+      - mountpoint
 
   # we've observed the following problem in linux
   # 1. systemd automount whatever cocks up and looses the mount.
@@ -74,8 +76,19 @@
       owner: root
       state: directory
       mode: 0000
+    when: ansible_system == 'Linux'
     tags:
       - sshfs
+      - mountpoint
+
+  - name: add mount point dir (2/2)
+    file:
+      dest: /import/home/ghz
+      state: directory
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - sshfs
+      - mountpoint
 
   - name: make sure root has a key
     user:
@@ -99,8 +112,15 @@
   - name: add sshfs mount line to rc.local
     lineinfile:
       dest: /etc/rc.local
-      line: 'sshfs -o allow_other,reconnect ghz@bobble:/zspace/pi/ghz /import/home/ghz'
+      line: '/usr/local/bin/sshfs -o allow_other,reconnect ghz@bobble:/zspace/pi/ghz /import/home/ghz'
     when: ansible_system == 'OpenBSD'
     tags:
       - sshfs
       - rc.local
+
+  - name: mount remote home (OpenBSD)
+    shell:
+      cmd: '[ -f /import/home/ghz/.zshrc ] || /usr/local/bin/sshfs -o allow_other,reconnect ghz@bobble:/zspace/pi/ghz /import/home/ghz'
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - sshfs
