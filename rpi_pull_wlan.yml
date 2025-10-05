@@ -22,6 +22,7 @@
       - brcmfmac
       - brcmutil
       - rfkill
+    when: ansible_system == 'Linux'
 
   # modprobe -r doesn't work on alpine for some reason.
   # so just reply on the blacklist above for now.
