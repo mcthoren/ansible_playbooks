@@ -26,7 +26,6 @@
       src: "/tmp/{{ inventory_hostname }}/etc/ssh/ssh_host_ed25519_key-cert.pub"
       dest: /etc/ssh/
       owner: root
-      group: root
       mode: 0644
     tags:
       - ssh_cert
@@ -41,6 +40,16 @@
       mode: 0644
     tags:
       - ssh_cert
+    when: ansible_system == 'Linux'
+
+  - name: add sshd config for the host certificate
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      insertafter: '#HostKey /etc/ssh/ssh_host_ed25519_key'
+      line: 'HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub'
+    tags:
+      - ssh_cert
+    when: ansible_system == 'OpenBSD'
 
   - name: add ssh_known_hosts to look for a config
     lineinfile:
@@ -48,7 +57,6 @@
       create: yes
       line: '@cert-authority * ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOJ3gXIzs9llnTxihqlCj7Ps4hGW4MuFf/7QsZlGmjQ 2025-03-01T13:43:37Z sand ssh ca cert signing key'
       owner: root
-      group: root
       mode: 0644
     tags:
       - ssh_cert
@@ -62,11 +70,11 @@
       - restart_sshd
     when: ansible_os_family == 'Debian'
 
-  - name: restart sshd (alpine)
+  - name: restart sshd (OpenBSD and alpine)
     service:
       name: sshd
       state: restarted
     tags:
       - ssh_cert
       - restart_sshd
-    when: ansible_os_family == 'Alpine'
+    when: ansible_os_family == 'Alpine' or ansible_os_family == 'OpenBSD'
