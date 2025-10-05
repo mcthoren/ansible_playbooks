@@ -7,24 +7,45 @@
 
   tasks:
 
-    - name: update, upgrade
+    - name: update, upgrade (Debian)
       apt:
         upgrade: full
         update_cache: yes
       when: ansible_os_family == 'Debian'
+      tags:
+        - updates
+        - packages
 
-    - name: autoclean
+    - name: autoclean (Debian)
       apt:
         autoclean: yes
       when: ansible_os_family == 'Debian'
+      tags:
+        - updates
+        - packages
 
-    - name: autoremove
+    - name: autoremove (Debian)
       apt:
         autoremove: yes
       when: ansible_os_family == 'Debian'
+      tags:
+        - updates
+        - packages
 
-    - name: update
+    - name: update (Alpine)
       apk:
         upgrade: true
         update_cache: true
       when: ansible_os_family == 'Alpine'
+      tags:
+        - updates
+        - packages
+
+    - name: update (OpenBSD)
+      openbsd_pkg:
+        name: '*'
+        state: latest
+      when: ansible_os_family == 'OpenBSD'
+      tags:
+        - updates
+        - packages
