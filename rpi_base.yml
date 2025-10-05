@@ -9,7 +9,7 @@
 
   - name: set hostname
     hostname:
-      name: '{{ inventory_hostname }}'
+      name: '{{ ansible_fqdn }}'
     tags:
       - hostname
 
@@ -17,11 +17,13 @@
     user:
       name: pi
       state: absent
+    when: ansible_system == 'Linux'
 
   - name: pull pi group if it exists
     group:
       name: pi
       state: absent
+    when: ansible_system == 'Linux'
 
   - name: add me group
     group:
@@ -50,11 +52,30 @@
     tags:
       - user
 
+  - name: add me
+    user:
+      name: ghz
+      uid: 1000
+      group: ghz
+      groups: wheel,dialer
+      shell: /usr/local/bin/zsh
+    when: ansible_os_family == 'OpenBSD'
+    tags:
+      - user
+
   - name: sort homedir
     user:
       name: ghz
       home: /home/ghz
     when: inventory_hostname in groups['wxps']
+    tags:
+      - user
+
+  - name: sort homedir
+    user:
+      name: ghz
+      home: /import/home/ghz
+    when: inventory_hostname in groups['pis']
     tags:
       - user
 
@@ -87,17 +108,27 @@
       dest: /etc/nsswitch.conf
       regexp: 'hosts:'
       line: 'hosts:		files dns'
+    when: ansible_system == 'Linux'
     tags:
       - nss
 
   - name: add figlet hostname to motd
     shell: figlet `hostname -s` > /etc/motd
+    tags:
+      - motd
+
+  - name: add a line to regen motd on boot on OpenBSD
+    lineinfile:
+      dest: /etc/rc.local
+      line: '(uname -a; hostname -s | /usr/local/bin/figlet) > /etc/motd'
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - motd
 
   - name: add root scripts dir
     file:
       path: /root/scripts
       owner: root
-      group: root
       state: directory
       mode: 0755
 
@@ -159,6 +190,7 @@
       owner: root
       group: root
       mode: 0755
+    when: ansible_system == 'Linux'
     tags:
       - netcheck
 
@@ -167,6 +199,7 @@
       env: yes
       name: PATH
       value: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+    when: ansible_system == 'Linux'
 
   - name: add netcheck cron entry
     cron:
@@ -178,7 +211,7 @@
       month: "*	"
       user: root
       job: "/root/scripts/netcheck"
-    when: 0
+    when: ansible_system == 'Linux' and 0
     tags:
       - cron
 
