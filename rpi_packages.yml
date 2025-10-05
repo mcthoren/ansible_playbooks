@@ -7,7 +7,7 @@
 
   tasks:
 
-    - name: add packages
+    - name: add packages (Alpine)
       apk:
         available: true
         name: [ aspell, bind-tools, cronie, docs, feh, figlet, findutils-locate, git, gnuplot, ipython, lsb-release-minimal, man-db, openssh, openntpd, outils-rdate, perl, postfix, py3-matplotlib, py3-numpy, py3-pip, rsync, s-nail, sshfs, tcpdump, tmux, vim, zsh ]
@@ -17,7 +17,7 @@
       tags:
         - packages
 
-    - name: add packages
+    - name: add packages (Debian)
       apt:
         name: [ aptitude, aspell, bsd-mailx, cu, dnsutils, feh, figlet, git, gnuplot, locate, miscfiles, postfix, python3-ipython, python3-matplotlib, python3-numpy, rdate, rsync, tcpdump, tmux, traceroute, ufw, vim, whois, x11-apps, zsh ]
         update_cache: yes
@@ -26,7 +26,7 @@
       tags:
         - packages
 
-    - name: pull busybox crond
+    - name: pull busybox crond (Alpine)
       service:
         name: crond
         state: stopped
@@ -36,7 +36,7 @@
         - packages
         - cron
 
-    - name: start cronie
+    - name: start cronie (Alpine)
       service:
         name: cronie
         state: started
@@ -45,3 +45,11 @@
       tags:
         - packages
         - cron
+
+    - name: add packages (OpenBSD)
+      openbsd_pkg:
+        name: [ wget, git, nmap, rsync--, vim--no_x11, figlet, zsh, bzip2, curl, gnuplot--, lynx, got, ipython3, aspell-de ]
+        state: present
+      when: ansible_os_family == 'OpenBSD'
+      tags:
+        - packages
