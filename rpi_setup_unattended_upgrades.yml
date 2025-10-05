@@ -7,7 +7,7 @@
 
   tasks:
 
-  - name: install packages
+  - name: install packages (Debian)
     apt:
       name: [ unattended-upgrades, apt-listchanges ]
       update_cache: yes
@@ -16,7 +16,7 @@
     tags:
       - packages
 
-  - name: template unattended-upgrades config
+  - name: template unattended-upgrades config (Debian)
     template:
       src: /home/ghz/repos/ansible_playbooks/plates/50unattended-upgrades
       dest: /etc/apt/apt.conf.d/50unattended-upgrades
@@ -27,7 +27,7 @@
     tags:
       - unattended
 
-  - name: restart unattended-upgrades service
+  - name: restart unattended-upgrades service (Debian)
     service:
       name: unattended-upgrades
       state: restarted
@@ -35,9 +35,9 @@
     tags:
       - unattended
 
-  - name: add netcheck cron entry
+  - name: add updates cron entry (Alpine)
     cron:
-      name: netcheck
+      name: updates
       minute: "16   "
       hour: "01   "
       day: "*   "
@@ -46,5 +46,44 @@
       user: root
       job: "apk -U upgrade"
     when: ansible_os_family == 'Alpine'
+    tags:
+      - cron
+
+  - name: add system upgrades cron entry (OpenBSD)
+    cron:
+      name: system upgrades
+      minute: "~	"
+      hour: "~	"
+      day: "*	"
+      month: "*	"
+      weekday: "5	"
+      job: "sysupgrade"
+    when: ansible_os_family == 'OpenBSD'
+    tags:
+      - cron
+
+  - name: add package upgrades cron entry (OpenBSD)
+    cron:
+      name: package upgrades
+      minute: "~	"
+      hour: "~	"
+      day: "*	"
+      month: "*	"
+      weekday: "*	"
+      job: "pkg_add -u"
+    when: ansible_os_family == 'OpenBSD'
+    tags:
+      - cron
+
+  - name: add system patches cron entry (OpenBSD)
+    cron:
+      name: system patches
+      minute: "~	"
+      hour: "*/8	"
+      day: "*	"
+      month: "*	"
+      weekday: "*	"
+      job: "syspatch"
+    when: ansible_os_family == 'OpenBSD'
     tags:
       - cron
