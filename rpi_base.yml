@@ -167,6 +167,22 @@
     tags:
       - ssh
 
+  # XXX this should be done in some kind of proper ansible way.
+  - name: turn off root console logins on OpenBSD
+    shell:
+      cmd: sed -i 's/secure//' /etc/ttys
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - ttys
+
+  # XXX this should be done in some kind of proper ansible way.
+  - name: don't really need a log full of "syslog restarted"
+    shell:
+      cmd: sed -i 's/syslog,/syslog.notice,/' /etc/syslog.conf
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - syslog
+
   - name: add root scripts dir
     file:
       path: /root/scripts
