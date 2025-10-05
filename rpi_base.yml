@@ -125,6 +125,24 @@
     tags:
       - motd
 
+  - name: config ntpd (OpenBSD)
+    copy:
+      # src: /home/ghz/repos/ansible_playbooks/plates/ntpd.conf
+      src: plates/ntpd.conf
+      dest: /etc/ntpd.conf
+      owner: root
+      mode: 0644
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - ntpd
+
+  - name: restart ntpd (OpenBSD)
+    service:
+      name: ntpd
+      state: restarted
+    tags:
+      - ntpd
+
   - name: add root scripts dir
     file:
       path: /root/scripts
