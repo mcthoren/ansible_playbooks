@@ -140,8 +140,32 @@
     service:
       name: ntpd
       state: restarted
+    when: ansible_system == 'OpenBSD'
     tags:
       - ntpd
+
+  - name: setup repeat delay in OpenBSD
+    lineinfile:
+      dest: /etc/wsconsctl.conf
+      line: "keyboard.repeat.del1=150"
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - kb_repeat
+
+  - name: setup repeat rate in OpenBSD
+    lineinfile:
+      dest: /etc/wsconsctl.conf
+      line: "keyboard.repeat.deln=50"
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - kb_repeat
+
+  - name: turn on visual host keys for ssh clients globaly
+    lineinfile:
+      dest: /etc/ssh/ssh_config
+      line: "VisualHostKey yes"
+    tags:
+      - ssh
 
   - name: add root scripts dir
     file:
