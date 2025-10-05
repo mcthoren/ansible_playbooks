@@ -87,3 +87,13 @@
     when: ansible_os_family == 'OpenBSD'
     tags:
       - cron
+
+  - name: config ntpd (OpenBSD)
+    copy:
+      src: plates/upgrade.site
+      dest: /upgrade.site
+      owner: root
+      mode: 0755
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - updates

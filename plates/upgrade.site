@@ -1,0 +1,4 @@
+echo 'syspatch' >> /etc/rc.firsttime
+echo 'syspatch' >> /etc/rc.firsttime
+echo 'pkg_add -IVvum' >> /etc/rc.firsttime
+echo 'reboot' >> /etc/rc.firsttime
