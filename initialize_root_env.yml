@@ -2,7 +2,7 @@
 ---
 
 - hosts: all
-  gather_facts: no
+  gather_facts: yes
   user: root
 
   tasks:
@@ -12,7 +12,6 @@
       src: /home/ghz/repos/ansible_playbooks/plates/.inputrc
       dest: /root/.inputrc
       owner: root
-      group: root
       mode: 0644
       force: false
     tags:
@@ -26,16 +25,15 @@
       group: ghz
       mode: 0644
       force: false
+    when: inventory_hostname in groups['wxps']
     tags:
       - configs
-    when: inventory_hostname in groups['wxps']
 
   - name: copy over minimal vimrc (root)
     copy:
       src: /home/ghz/env/.vimrc
       dest: /root/.vimrc
       owner: root
-      group: root
       mode: 0644
       force: false
     tags:
@@ -49,6 +47,24 @@
       group: ghz
       mode: 0644
       force: false
+    when: inventory_hostname in groups['wxps']
     tags:
       - configs
-    when: inventory_hostname in groups['wxps']
+
+  - name: config prompt (root)
+    lineinfile:
+      dest: /root/.profile
+      insertafter: 'export PATH'
+      line: 'PS1="[\u@\h \W]# "'
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - configs
+
+  - name: config shell history (root)
+    lineinfile:
+      dest: /root/.profile
+      insertafter: 'export PATH'
+      line: 'HISTFILE="$HOME/.sh_history"'
+    when: ansible_system == 'OpenBSD'
+    tags:
+      - configs
