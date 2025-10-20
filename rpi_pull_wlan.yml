@@ -33,6 +33,7 @@
     with_items:
       - brcmfmac
       - brcmutil
+    ignore_errors: true
     when: ansible_os_family == 'Debian'
 
   - name: remove packages
