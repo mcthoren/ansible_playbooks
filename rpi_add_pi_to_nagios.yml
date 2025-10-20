@@ -1,0 +1,31 @@
+# vim:set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+---
+
+- hosts: all
+  gather_facts: no
+  user: root
+
+  tasks:
+
+  # nagios interprets null as null and not a hostname in the hostname field. lol.
+  - name: template nagios config on jazz for {{ inventory_hostname }}
+    template:
+      src: plates/nagios.plate.cfg
+      dest: "/etc/nagios4/conf.d/{{ inventory_hostname }}.cfg"
+      owner: root
+      group: root
+      mode: 0644
+    delegate_to: jazz
+    when: inventory_hostname != "null"
+    register: nagios_config
+    tags:
+      - nagios_client
+
+  - name: restart nagios on jazz
+    service:
+      name: nagios4
+      state: restarted
+    delegate_to: jazz
+    when: nagios_config.changed
+    tags:
+      - nagios_client
