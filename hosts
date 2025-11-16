@@ -1,16 +1,16 @@
 [pis]                                                                           
 atom                                                                            
+# blast
 brink                                                                           
 burn                                                                            
 crater                                                                          
 doomy                                                                           
+# dot
+# fizzy
 infinity                                                                        
 jazz                                                                            
 keen                                                                            
 linty                                                                           
-# dot                                                                           
-# blast                                                                         
-# fizzy                                                                         
 orbit
 null
 ragtime                                                                         
@@ -20,6 +20,7 @@ squiggle
 straylight                                                                      
 teddy                                                                           
 up                                                                              
+xray
 zero                                                                            
 
 [boincs]                                                                        
