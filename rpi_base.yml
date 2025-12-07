@@ -269,7 +269,7 @@
       month: "*	"
       user: root
       job: "/root/scripts/netcheck"
-    when: ansible_system == 'Linux' and 0
+    when: false
     tags:
       - cron
 
@@ -315,7 +315,7 @@
       - locale
 
   - name: sort locales (3/3)
-    command: localectl set-locale C.UTF-8
+    command: update-locale LANG=C.UTF-8
     when: ansible_os_family == 'Debian'
     tags:
       - locale
