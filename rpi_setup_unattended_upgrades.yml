@@ -44,7 +44,7 @@
       weekday: "*   "
       month: "*   "
       user: root
-      job: "apk -U upgrade"
+      job: "apk update && apk add --upgrade apk-tools && apk upgrade --available"
     when: ansible_os_family == 'Alpine'
     tags:
       - cron
