@@ -10,7 +10,7 @@
     - name: add packages (Alpine)
       apk:
         available: true
-        name: [ aspell, bind-tools, cronie, docs, feh, figlet, findutils-locate, git, gnuplot, ipython, lsb-release-minimal, man-db, openssh, openntpd, outils-rdate, perl, postfix, py3-matplotlib, py3-numpy, py3-pip, rsync, s-nail, sshfs, tcpdump, tmux, vim, zsh ]
+        name: [ aspell, bind-tools, build-base, cronie, docs, feh, figlet, findutils-locate, git, gnuplot, ipython, lsb-release-minimal, mandoc, mandoc-apropos, openssh, openntpd, outils-rdate, perl, postfix, python3-dev, py3-matplotlib, py3-numpy, py3-pip, py3-smbus, rsync, s-nail, sshfs, tcpdump, tmux, vim, zsh ]
         state: latest
         update_cache: true
       when: ansible_os_family == 'Alpine'
