@@ -149,6 +149,18 @@
     tags:
       - ntpd
 
+  - name: config ntpd (Alpine)
+    blockinfile:
+      path: /etc/init.d/openntpd
+      block: |
+        start_pre() {
+            /usr/sbin/rdate -p wclocks
+            /usr/sbin/rdate -s wclocks
+        }
+    when: ansible_os_family == 'Alpine'
+    tags:
+      - ntpd
+
   - name: setup repeat delay in OpenBSD
     lineinfile:
       dest: /etc/wsconsctl.conf
