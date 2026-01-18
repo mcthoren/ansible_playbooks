@@ -88,10 +88,15 @@
       # - dbus
       # - dbus.socket
       - ModemManager.service
-      - ntp.service
       - avahi-daemon
       - avahi-daemon.socket
+      - cloud-config.service
+      - cloud-init-local.service
+      - cloud-init-main.service
+      - cloud-init-network.service
+      - cloud-final.service
       - nfs-client.target
+      - ntp.service
       - remote-fs.target
       - rpcbind.service
       - rsync.service
