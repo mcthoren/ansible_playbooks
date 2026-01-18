@@ -16,7 +16,7 @@
       group: root
       mode: 0644
     delegate_to: jazz
-    when: inventory_hostname != "null"
+    when: inventory_hostname != "null" or inventory_hostname != "jazz"
     register: nagios_config
     tags:
       - nagios_client
