@@ -25,10 +25,17 @@
       state: absent
     when: ansible_system == 'Linux'
 
-  - name: add me group
+  - name: add me and my groups
     group:
-      name: ghz
+      name: '{{ item }}'
       state: present
+    with_items:
+      - ghz
+      - gpio
+      - i2c
+      - spi
+    tags:
+      - groups
 
   - name: add me
     user:
@@ -40,17 +47,19 @@
     when: ansible_os_family == 'Debian'
     tags:
       - user
+      - groups
 
   - name: add me
     user:
       name: ghz
       uid: 1000
       group: ghz
-      groups: adm,dialout,cdrom,audio,video,games,users,input,netdev
+      groups: adm,dialout,cdrom,audio,video,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
     when: ansible_os_family == 'Alpine'
     tags:
       - user
+      - groups
 
   - name: add me
     user:
