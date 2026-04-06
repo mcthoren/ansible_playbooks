@@ -51,6 +51,26 @@
     tags:
       - configs
 
+  - name: check/create pip conf dir (user)
+    file:
+      dest: /home/ghz/.config/pip
+      owner: ghz
+      group: ghz
+      state: directory
+      mode: 0755
+
+  - name: copy over minimal pip.conf (user)
+    copy:
+      src: plates/pip.conf
+      dest: /home/ghz/.config/pip/pip.conf
+      owner: ghz
+      group: ghz
+      mode: 0644
+      force: false
+    when: inventory_hostname in groups['wxps']
+    tags:
+      - configs
+
   - name: config prompt (root)
     lineinfile:
       dest: /root/.profile
