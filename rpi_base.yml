@@ -17,13 +17,13 @@
     user:
       name: pi
       state: absent
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
 
   - name: pull pi group if it exists
     group:
       name: pi
       state: absent
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
 
   - name: add me and my groups
     group:
@@ -44,7 +44,7 @@
       group: ghz
       groups: adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - user
       - groups
@@ -56,7 +56,7 @@
       group: ghz
       groups: adm,dialout,cdrom,audio,video,games,users,input,netdev,gpio,i2c,spi
       shell: /usr/bin/zsh
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - user
       - groups
@@ -68,7 +68,7 @@
       group: ghz
       groups: wheel,dialer
       shell: /usr/local/bin/zsh
-    when: ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - user
 
@@ -113,7 +113,7 @@
       - triggerhappy.socket
       # - systemd-timesyncd.service
     ignore_errors: true
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - wank
 
@@ -122,7 +122,7 @@
       dest: /etc/nsswitch.conf
       regexp: 'hosts:'
       line: 'hosts:		files dns'
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
     tags:
       - nss
 
@@ -135,7 +135,7 @@
     lineinfile:
       dest: /etc/rc.local
       line: '(uname -a; hostname -s | /usr/local/bin/figlet) > /etc/motd'
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - motd
 
@@ -146,7 +146,7 @@
       dest: /etc/ntpd.conf
       owner: root
       mode: 0644
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - ntpd
 
@@ -154,7 +154,7 @@
     service:
       name: ntpd
       state: restarted
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - ntpd
 
@@ -166,7 +166,7 @@
             /usr/sbin/rdate -p wclocks
             /usr/sbin/rdate -s wclocks
         }
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - ntpd
 
@@ -174,7 +174,7 @@
     lineinfile:
       dest: /etc/wsconsctl.conf
       line: "keyboard.repeat.del1=150"
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - kb_repeat
 
@@ -182,7 +182,7 @@
     lineinfile:
       dest: /etc/wsconsctl.conf
       line: "keyboard.repeat.deln=50"
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - kb_repeat
 
@@ -197,7 +197,7 @@
   - name: turn off root console logins on OpenBSD
     shell:
       cmd: sed -i 's/secure//' /etc/ttys
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - ttys
 
@@ -205,7 +205,7 @@
   - name: don't really need a log full of "syslog restarted"
     shell:
       cmd: sed -i 's/syslog,/syslog.notice,/' /etc/syslog.conf
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - syslog
 
@@ -274,7 +274,7 @@
       owner: root
       group: root
       mode: 0755
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
     tags:
       - netcheck
 
@@ -283,7 +283,7 @@
       env: yes
       name: PATH
       value: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
 
   - name: add netcheck cron entry
     cron:
@@ -312,14 +312,14 @@
       rule: allow
       port: '22'
       proto: tcp
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - fw
 
   - name: stop spamming our ring buffer
     ufw:
       logging: 'off'
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - fw
 
@@ -328,7 +328,7 @@
     locale_gen:
       name: en_US.UTF-8
       state: present
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - locale
 
@@ -336,13 +336,13 @@
     locale_gen:
       name: en_GB.UTF-8
       state: absent
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - locale
 
   - name: sort locales (3/3)
     command: update-locale LANG=C.UTF-8
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - locale
 
@@ -350,7 +350,7 @@
   - name: set timezone to utc
     timezone:
       name: UTC
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
 
   - name: bring up i2c and spi on alpine (1/3)
     blockinfile:
@@ -358,7 +358,7 @@
       block: |
         dtparam=i2c_arm=on
         dtparam=spi=on
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - i2c
       - spi
@@ -373,7 +373,7 @@
       content: |
         spi_bcm2835
         spidev
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - spi
       - sdevs
@@ -385,7 +385,7 @@
       group: root
       mode: '0644'
       content: "i2c-dev\n"
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - i2c
       - sdevs

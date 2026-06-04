@@ -76,7 +76,7 @@
       dest: /root/.profile
       insertafter: 'export PATH'
       line: 'PS1="[\u@\h \W]# "'
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - configs
 
@@ -85,6 +85,6 @@
       dest: /root/.profile
       insertafter: 'export PATH'
       line: 'HISTFILE="$HOME/.sh_history"'
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - configs
