@@ -13,7 +13,7 @@
         name: [ aspell, bind-tools, build-base, cronie, docs, feh, figlet, findutils-locate, git, gnuplot, ipython, lsb-release-minimal, mandoc, mandoc-apropos, openssh, openntpd, outils-rdate, perl, postfix, python3-dev, py3-matplotlib, py3-numpy, py3-pip, py3-smbus, rsync, s-nail, sshfs, tcpdump, tmux, vim, zsh ]
         state: latest
         update_cache: true
-      when: ansible_os_family == 'Alpine'
+      when: ansible_facts['os_family'] == 'Alpine'
       tags:
         - packages
 
@@ -22,7 +22,7 @@
         name: [ aptitude, aspell, bsd-mailx, cu, dnsutils, feh, figlet, git, gnuplot, locate, miscfiles, postfix, python3-ipython, python3-matplotlib, python3-numpy, rdate, rsync, tcpdump, tmux, traceroute, ufw, vim, whois, x11-apps, zsh ]
         update_cache: yes
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       tags:
         - packages
 
@@ -31,7 +31,7 @@
         name: crond
         state: stopped
         enabled: false
-      when: ansible_os_family == 'Alpine'
+      when: ansible_facts['os_family'] == 'Alpine'
       tags:
         - packages
         - cron
@@ -41,7 +41,7 @@
         name: cronie
         state: started
         enabled: true
-      when: ansible_os_family == 'Alpine'
+      when: ansible_facts['os_family'] == 'Alpine'
       tags:
         - packages
         - cron
@@ -50,6 +50,6 @@
       openbsd_pkg:
         name: [ wget, git, nmap, rsync--, vim--no_x11, figlet, zsh, bzip2, curl, gnuplot--, lynx, got, ipython3, aspell-de ]
         state: present
-      when: ansible_os_family == 'OpenBSD'
+      when: ansible_facts['os_family'] == 'OpenBSD'
       tags:
         - packages

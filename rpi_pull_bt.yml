@@ -16,7 +16,7 @@
       - bluetooth
       - hciuart
     ignore_errors: true
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
 
   - name: blacklist bt modules
     kernel_blacklist:
@@ -28,7 +28,7 @@
       - bnep
       - bluetooth
       - rfkill
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
 
   # modprobe -r doesn't work on alpine for some reason
   # but the blacklist from above works, so these will be
@@ -43,4 +43,4 @@
       - bnep
       - bluetooth
     ignore_errors: true
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'

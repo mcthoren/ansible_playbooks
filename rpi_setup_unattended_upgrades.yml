@@ -12,7 +12,7 @@
       name: [ unattended-upgrades, apt-listchanges ]
       update_cache: yes
       state: present
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - packages
 
@@ -23,7 +23,7 @@
       owner: root
       group: root
       mode: 0644
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - unattended
 
@@ -31,7 +31,7 @@
     service:
       name: unattended-upgrades
       state: restarted
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - unattended
 
@@ -45,7 +45,7 @@
       month: "*   "
       user: root
       job: "apk update && apk add --upgrade apk-tools && apk upgrade --available"
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
     tags:
       - cron
 
@@ -58,7 +58,7 @@
       month: "*	"
       weekday: "5	"
       job: "sysupgrade"
-    when: ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - cron
 
@@ -71,7 +71,7 @@
       month: "*	"
       weekday: "*	"
       job: "pkg_add -u"
-    when: ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - cron
 
@@ -84,7 +84,7 @@
       month: "*	"
       weekday: "*	"
       job: "syspatch"
-    when: ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - cron
 
@@ -94,6 +94,6 @@
       dest: /upgrade.site
       owner: root
       mode: 0755
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - updates

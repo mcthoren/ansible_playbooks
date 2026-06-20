@@ -13,7 +13,7 @@
     tags:
       - packages
       - sshfs
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
 
   - name: add sshfs packages (alp)
     apk:
@@ -23,7 +23,7 @@
     tags:
       - packages
       - sshfs
-    when: ansible_os_family == 'Alpine'
+    when: ansible_facts['os_family'] == 'Alpine'
 
   - name: add sshfs packages (OpenBSD)
     openbsd_pkg:
@@ -32,7 +32,7 @@
     tags:
       - packages
       - sshfs
-    when: ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'OpenBSD'
 
   # make sre we don't try to change the perms on mounted mounts
   - name: unmount sshfs mount point
@@ -42,7 +42,7 @@
       # fstype: fuse.sshfs
       # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: unmounted
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
     tags:
       - sshfs
 
@@ -50,7 +50,7 @@
     file:
       state: absent
       path: /import
-    when: inventory_hostname in groups['pis'] and ansible_system == 'Linux'
+    when: inventory_hostname in groups['pis'] and ansible_facts['system'] == 'Linux'
     tags:
       - sshfs
 
@@ -76,7 +76,7 @@
       owner: root
       state: directory
       mode: 0000
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
     tags:
       - sshfs
       - mountpoint
@@ -85,7 +85,7 @@
     file:
       dest: /import/home/ghz
       state: directory
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - sshfs
       - mountpoint
@@ -105,7 +105,7 @@
       fstype: fuse.sshfs
       opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: mounted
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
     tags:
       - sshfs
 
@@ -113,7 +113,7 @@
     lineinfile:
       dest: /etc/rc.local
       line: '/usr/local/bin/sshfs -o allow_other,reconnect ghz@bobble:/zspace/pi/ghz /import/home/ghz'
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - sshfs
       - rc.local
@@ -121,6 +121,6 @@
   - name: mount remote home (OpenBSD)
     shell:
       cmd: '[ -f /import/home/ghz/.zshrc ] || /usr/local/bin/sshfs -o allow_other,reconnect ghz@bobble:/zspace/pi/ghz /import/home/ghz'
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
     tags:
       - sshfs

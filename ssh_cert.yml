@@ -40,7 +40,7 @@
       mode: 0644
     tags:
       - ssh_cert
-    when: ansible_system == 'Linux'
+    when: ansible_facts['system'] == 'Linux'
 
   - name: add sshd config for the host certificate
     lineinfile:
@@ -49,7 +49,7 @@
       line: 'HostCertificate /etc/ssh/ssh_host_ed25519_key-cert.pub'
     tags:
       - ssh_cert
-    when: ansible_system == 'OpenBSD'
+    when: ansible_facts['system'] == 'OpenBSD'
 
   - name: add ssh_known_hosts to look for a config
     lineinfile:
@@ -68,7 +68,7 @@
     tags:
       - ssh_cert
       - restart_sshd
-    when: ansible_os_family == 'Debian'
+    when: ansible_facts['os_family'] == 'Debian'
 
   - name: restart sshd (OpenBSD and alpine)
     service:
@@ -77,4 +77,4 @@
     tags:
       - ssh_cert
       - restart_sshd
-    when: ansible_os_family == 'Alpine' or ansible_os_family == 'OpenBSD'
+    when: ansible_facts['os_family'] == 'Alpine' or ansible_facts['os_family'] == 'OpenBSD'

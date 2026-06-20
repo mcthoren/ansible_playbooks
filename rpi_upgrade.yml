@@ -7,11 +7,23 @@
 
   tasks:
 
+    - name: make sure we have main and community repos for (Alpine)
+      template:
+        src: plates/alp_repos
+        dest: /etc/apk/repositories
+        owner: root
+        group: root
+        mode: 0644
+      when: ansible_facts['os_family'] == 'Alpine'
+      tags:
+        - packages
+        - repos
+
     - name: update, upgrade (Debian)
       apt:
         upgrade: full
         update_cache: yes
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       tags:
         - updates
         - packages
@@ -19,7 +31,7 @@
     - name: autoclean (Debian)
       apt:
         autoclean: yes
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       tags:
         - updates
         - packages
@@ -27,7 +39,7 @@
     - name: autoremove (Debian)
       apt:
         autoremove: yes
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       tags:
         - updates
         - packages
@@ -36,7 +48,7 @@
       apk:
         upgrade: true
         update_cache: true
-      when: ansible_os_family == 'Alpine'
+      when: ansible_facts['os_family'] == 'Alpine'
       tags:
         - updates
         - packages
@@ -45,7 +57,7 @@
       openbsd_pkg:
         name: '*'
         state: latest
-      when: ansible_os_family == 'OpenBSD'
+      when: ansible_facts['os_family'] == 'OpenBSD'
       tags:
         - updates
         - packages
