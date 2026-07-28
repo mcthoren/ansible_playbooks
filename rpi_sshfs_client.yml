@@ -103,7 +103,7 @@
       name: /import/home/ghz
       src: ghz@fs1:/zspace/pi/ghz
       fstype: fuse.sshfs
-      opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
+      opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other,no_contain_symlinks
       state: mounted
     when: ansible_facts['system'] == 'Linux'
     tags:
