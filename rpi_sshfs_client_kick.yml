@@ -10,9 +10,16 @@
     mount:
       name: /import/home/ghz
       src: ghz@fs1:/zspace/pi/ghz
-      # fstype: fuse.sshfs
-      # opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: unmounted
+
+  - name: remount sshfs mount point
+    mount:
+      name: /import/home/ghz
+      src: ghz@fs1:/zspace/pi/ghz
+      fstype: fuse.sshfs
+      opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other,no_contain_symlinks
+      state: mounted
+    when: inventory_hostname not in ['crater','linty','orbit','scooty','spiffy','squiggle','straylight','up']
 
   - name: remount sshfs mount point
     mount:
@@ -21,3 +28,4 @@
       fstype: fuse.sshfs
       opts: delay_connect,_netdev,rw,nosuid,nodev,allow_other
       state: mounted
+    when: inventory_hostname in ['crater','linty','orbit','scooty','spiffy','squiggle','straylight','up']
