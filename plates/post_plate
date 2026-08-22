@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
-myhostname = {{ ansible_fqdn }}
+myhostname = {{ ansible_facts['fqdn'] }}
 mydomain = darkdata.org
-smtpd_banner = $myhostname ESMTP $mail_name {{ ansible_lsb.description }}
+smtpd_banner = $myhostname ESMTP $mail_name {{ ansible_facts['lsb']['description'] }}
 biff = no
 append_dot_mydomain = no
 readme_directory = no
