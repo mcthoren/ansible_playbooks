@@ -18,10 +18,10 @@
     tags:
       - mail
 
-  - name: reload postfix (Linux)
+  - name: restart postfix (Linux)
     service:
       name: postfix
-      state: reloaded
+      state: restarted
       enabled: true
     when: ansible_facts['system'] == 'Linux'
     tags:
