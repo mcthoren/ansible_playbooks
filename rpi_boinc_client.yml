@@ -10,6 +10,7 @@
     apt:
       name: boinc-client
       state: present
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - packages
       - boinc
@@ -19,5 +20,6 @@
       name: boinc-client
       state: started
       enabled: yes
+    when: ansible_facts['os_family'] == 'Debian'
     tags:
       - boinc
