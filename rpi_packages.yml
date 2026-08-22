@@ -46,6 +46,28 @@
         - packages
         - cron
 
+    - name: start postfix (Alpine)
+      service:
+        name: postfix
+        state: started
+        enabled: true
+      when: ansible_facts['os_family'] == 'Alpine'
+      tags:
+        - packages
+        - mail
+
+    # XXX this should be done in some kind of proper ansible way.
+    # XXX my newly added services don't actually get newly added w.o. this. prly because of clock skew.
+    - name: force update of the openrc dependency tree cache in case of clock skew. (Alpine)
+      shell:
+        cmd: rc-update -u
+      when: ansible_facts['os_family'] == 'Alpine'
+      tags:
+        - packages
+        - mail
+        - cron
+
+
     - name: add packages (OpenBSD)
       openbsd_pkg:
         name: [ wget, git, nmap, rsync--, vim--no_x11, figlet, zsh, bzip2, curl, gnuplot--, lynx, got, ipython3, aspell-de ]
