@@ -38,8 +38,8 @@
   - name: add updates cron entry (Alpine)
     cron:
       name: updates
-      minute: "16   "
-      hour: "01   "
+      minute: "{{ 59 | random(seed=inventory_hostname) }}   "
+      hour: "{{ ['00', '01', '02', '03', '04'] | random(seed=inventory_hostname) }}   "
       day: "*   "
       weekday: "*   "
       month: "*   "
