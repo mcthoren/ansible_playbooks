@@ -16,6 +16,14 @@
     tags:
       - packages
 
+  - name: add packages (OpenBSD)
+    openbsd_pkg:
+      name: checkrestart
+      state: present
+    when: ansible_facts['os_family'] == 'OpenBSD'
+    tags:
+      - packages
+
   - name: template unattended-upgrades config (Debian)
     template:
       src: /home/ghz/repos/ansible_playbooks/plates/50unattended-upgrades
@@ -24,6 +32,17 @@
       group: root
       mode: 0644
     when: ansible_facts['os_family'] == 'Debian'
+    tags:
+      - unattended
+
+  - name: copy patch_box script over (OpenBSD)
+    copy:
+      src: /home/ghz/repos/scripts/patch_box
+      dest: /root/scripts/patch_box
+      owner: root
+      group: wheel
+      mode: 0755
+    when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - unattended
 
@@ -79,11 +98,11 @@
     cron:
       name: system patches
       minute: "~	"
-      hour: "*/8	"
+      hour: "~/8	"
       day: "*	"
       month: "*	"
       weekday: "*	"
-      job: "syspatch"
+      job: "/root/scripts/patch_box"
     when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - cron
