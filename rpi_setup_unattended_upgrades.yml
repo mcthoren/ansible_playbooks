@@ -102,7 +102,7 @@
       day: "*	"
       month: "*	"
       weekday: "*	"
-      job: "/root/scripts/patch_box"
+      job: "/root/scripts/patch_box -r"
     when: ansible_facts['os_family'] == 'OpenBSD'
     tags:
       - cron
